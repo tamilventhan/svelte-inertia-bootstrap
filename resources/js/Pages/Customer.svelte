@@ -1,44 +1,39 @@
     <script>
+        import Swal from 'sweetalert2';
         import {inertia, router} from '@inertiajs/svelte'
         import Layout from '@/Shared/Layout.svelte'
         import Pagination from '@/Shared/Pagination.svelte'
-        import { Notyf } from 'notyf';
-        import 'notyf/notyf.min.css';
 
         let pagetitle='Customers'
         export let customers;
 
-        const notyf = new Notyf({
-        dismissible: true,
-        duration: 2000,
-        ripple: true,
-        position: {
-            x: 'right',
-            y: 'top',
-        }
-    });
+    async function deleteCustomer(id) {
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        });
 
-        async function deleteCustomer(id) {
-            if (confirm("You are about to delete a customer, are you sure?")) {
-                try {
-                    router.delete("/customers/" + id);
-                    notyf.success('Customer deleted successfully');
-
-                    setTimeout(() => {
-                        router.push('/customers');
-                    }, 2000);
-                } catch (error) {
-                    console.error("Error deleting customer:", error);
-                }
-            }
+        if (result.isConfirmed) {
+            await router.delete(`/customers/${id}`);
+            Swal.fire({
+            title: 'Deleted!',
+            text: 'The customer has been deleted.',
+            icon: 'success'
+            });
         }
+    }
     </script>
 
     <svelte:head>
         <title>{pagetitle}</title>
     </svelte:head>
 
-    <Layout>
+<Layout>
     <div class="pb-5">
 
         <div class="p-2">
@@ -82,4 +77,5 @@
             </div>
         </div>
     </div>
-    </Layout>
+</Layout>
+
