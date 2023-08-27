@@ -6,9 +6,7 @@
 
 <Header/>
 <div class="container">
-    <div class="pt-2">
-        <FlashMessage/>
-    </div>
+    <FlashMessage/>
     <slot></slot>
 </div>
 <Footer/>
