@@ -30,7 +30,7 @@ class CustomerController extends Controller
          'customers'=>$customers
        ]);
 
-        
+
     }
 
     /**
@@ -86,8 +86,6 @@ class CustomerController extends Controller
         $customer->save();
 
         return redirect('/customers')->with('success',' customer edited succesfully');
-
-
     }
 
     /**
@@ -96,7 +94,6 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         $customer->delete();
-
-        return redirect('/customers')->with('success','Customer deleted sucessfully');
+        return redirect('/customers')->with('success',' customer deleted succesfully');
     }
 }
