@@ -3,9 +3,8 @@ import {inertia} from '@inertiajs/svelte'
 </script>
 
 <main>
-    <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 border-bottom">
-        <div class="container px-5">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white  border-bottom">
+        <div class="container">
             <a use:inertia class="navbar-brand" href="/">
                 <span class="fw-bolder text-primary">Laravel-Svelte-Bootstrap</span>
             </a>
@@ -14,8 +13,8 @@ import {inertia} from '@inertiajs/svelte'
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
                     <li class="nav-item"><a use:inertia class="nav-link" href="/">Home</a></li>
                     <li class="nav-item"><a use:inertia class="nav-link" href="/customers">Customers</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/">Projects</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/">Contact</a></li>
+                    <li class="nav-item"><a use:inertia class="nav-link" href="/">Projects</a></li>
+                    <li class="nav-item"><a use:inertia class="nav-link" href="/">Contact</a></li>
                 </ul>
             </div>
         </div>

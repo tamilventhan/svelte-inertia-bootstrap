@@ -3,15 +3,15 @@ import Layout from "../Shared/Layout.svelte";
 </script>
 <Layout>
     <div class="pb-5 overflow-x-auto">
-        <header class="pt-5">
+        <header class="pt-2">
             <div class="container pb-5">
                 <div class="row align-items-center">
-                    <div class="col">
+                    <div class="col pt-3">
                         <!-- Header text content-->
                         <div class="text-center text-xxl-start">
                             <div class="badge bg-primary bg-gradient text-white mb-4"><div class="text-uppercase">Design &middot; Development &middot; Marketing</div></div>
                             <div class="fs-3 fw-light text-muted">I can help to developers</div>
-                            <h6 class="display-5 mb-5"><span class="text-gradient d-inline">I'm Starter Kit for Laravel Svelte-Vite-Bootstrap boilerplate.</span></h6>
+                            <h6 class="display-6 mb-5"><span class="text-gradient d-inline">I'm Starter Kit <br> Laravel-Svelte-Vite-Bootstrap boilerplate.</span></h6>
                             <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xxl-start mb-3">
                                 <a class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder" href="resume.html">Resume</a>
                                 <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" href="projects.html">Projects</a>
