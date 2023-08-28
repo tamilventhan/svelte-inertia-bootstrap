@@ -63,13 +63,6 @@
                     </td>
                 </tr>
                 {/each}
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th class="text-center">Action</th>
-                </tr>
                 </tbody>
             </table>
             <div class="d-flex justify-content-end">
@@ -78,4 +71,3 @@
         </div>
     </div>
 </Layout>
-
