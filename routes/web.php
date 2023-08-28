@@ -5,8 +5,9 @@ use  Inertia\Inertia;
 use App\http\Controllers\CustomerController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return Inertia::render('welcome');
 });
+
 /*
 Route::get('customers',[Customercontroller::class,'index']);
 Route::get('/customers/create',[CustomerController::class,'create']);

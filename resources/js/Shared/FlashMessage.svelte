@@ -10,7 +10,8 @@
 <div class="alert alert-warning">{$page.props.flash.warning}</div>
 {/if} -->
 
-<script>
+<!-- <script>
+    //Notyf package
     import {page} from '@inertiajs/svelte'
     import { Notyf } from 'notyf';
     import 'notyf/notyf.min.css';
@@ -28,4 +29,22 @@
     if ($page.props.flash.success) {
         notyf.success($page.props.flash.success);
     }
+</script> -->
+<script>
+import {page} from '@inertiajs/svelte'
+import Swal from 'sweetalert2';
+
+    let successMessage = '';
+    if ($page.props.flash.success) {
+        successMessage = $page.props.flash.success;
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: successMessage,
+        });
+    }
+
 </script>
+<style>
+    @import 'sweetalert2/dist/sweetalert2.min.css';
+</style>

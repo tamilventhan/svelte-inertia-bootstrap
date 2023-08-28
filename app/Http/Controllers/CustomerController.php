@@ -83,7 +83,7 @@ class CustomerController extends Controller
         $customer->phone=$request->phone;
         $customer->save();
 
-        return redirect('/customers')->with('success',' customer edited succesfully');
+        return redirect('/customers')->with('success',' Customer updated succesfully');
     }
 
     /**
