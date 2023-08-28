@@ -19,6 +19,7 @@ import Layout from "../Shared/Layout.svelte";
                         </div>
                     </div>
                     <div class="col">
+                        <span></span>
                         <!-- Header profile picture-->
                         <div class="d-flex justify-content-center mt-5">
                             <div class="profile ">
