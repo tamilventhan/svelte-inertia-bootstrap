@@ -25,7 +25,7 @@
                   <label >
                     <strong>Name</strong>
                 </label>
-                  <input bind:value={form.name} type="text" class="form-control" id="exampleInputEmail1" >
+                  <input bind:value={form.name} type="text" class="form-control" id="name" >
                   {#if errors.name}
                     <div class="text-danger">{errors.name}</div>
                   {/if}
@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label ><strong>Email</strong></label>
-                    <input bind:value={form.email} type="email" class="form-control" id="exampleInputEmail1" >
+                    <input bind:value={form.email} type="email" class="form-control" id="email" >
                     {#if errors.email}
                     <div class="text-danger">{errors.email}</div>
                   {/if}
@@ -41,7 +41,7 @@
                   <div class="form-group">
                     <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label ><strong>Phone</strong></label>
-                    <input bind:value={form.phone} type="text" class="form-control" id="exampleInputEmail1" >
+                    <input bind:value={form.phone} type="text" class="form-control" id="phone" >
                     {#if errors.phone}
                     <div class="text-danger">{errors.phone}</div>
                   {/if}

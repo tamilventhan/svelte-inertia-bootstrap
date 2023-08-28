@@ -19,7 +19,7 @@
                 <div class="form-group">
                   <!-- svelte-ignore a11y-label-has-associated-control -->
                   <label ><strong>Name</strong></label>
-                  <input bind:value={customer.name} type="text" class="form-control" id="exampleInputEmail1" >
+                  <input bind:value={customer.name} type="text" class="form-control" id="name" >
                   {#if errors.name}
                     <div class="text-danger">{errors.name}</div>
                   {/if}
@@ -27,7 +27,7 @@
                 <div class="form-group">
                     <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label ><strong>Email</strong></label>
-                    <input bind:value={customer.email} type="email" class="form-control" id="exampleInputEmail1" >
+                    <input bind:value={customer.email} type="email" class="form-control" id="email" >
                     {#if errors.email}
                     <div class="text-danger">{errors.email}</div>
                   {/if}
@@ -35,14 +35,14 @@
                   <div class="form-group">
                     <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label ><strong>Phone</strong></label>
-                    <input bind:value={customer.phone} type="text" class="form-control" id="exampleInputEmail1" >
+                    <input bind:value={customer.phone} type="text" class="form-control" id="phone" >
                     {#if errors.phone}
                     <div class="text-danger">{errors.phone}</div>
                   {/if}
                 </div>
                 <div class="d-flex justify-content-end gap-2 pt-3">
                     <a use:inertia href="/customers" class="btn btn-secondary">Back</a>
-                    <button type="submit" class="btn btn-primary" >Submit</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
