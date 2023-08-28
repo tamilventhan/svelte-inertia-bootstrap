@@ -26,11 +26,9 @@ class CustomerController extends Controller
 
                            });
 
-       return Inertia::render('Customer',[
+       return Inertia::render('customers/index',[
          'customers'=>$customers
        ]);
-
-
     }
 
     /**
@@ -38,7 +36,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return Inertia::render('CreateCustomer');
+        return Inertia::render('customers/create');
     }
 
     /**
@@ -60,7 +58,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        return Inertia::render('ShowCustomer',[
+        return Inertia::render('customers/view',[
             'customer'=>$customer,
         ]);
     }
@@ -70,7 +68,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        return Inertia::render('EditCustomer',[
+        return Inertia::render('customers/edit',[
             'customer'=>$customer,
         ]);
     }
