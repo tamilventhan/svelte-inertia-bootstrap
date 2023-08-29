@@ -1,23 +1,30 @@
-<script>
-import {inertia} from '@inertiajs/svelte'
-export let links
-</script>
+  <script>
+    import { inertia } from '@inertiajs/svelte'
 
-<nav aria-label="Page navigation example">
-    {#if links && links.length !==3}
+    export let links = []
+  </script>
+
+  <nav class="Page navigation">
     <ul class="pagination justify-content-center">
-      {#each links as link}
-      
-      {#if link.url===null}
-      <li class="page-item disabled">
-        <a use:inertia href="" class="page-link">{@html link.label}</a>
-      </li>
-      {:else}
-      <li class={link.active ? 'page-item active':'page-item'}>
-        <a class="page-link" href={link.url}>{@html link.label}</a>
-      </li>
+      {#if links.length > 3}
+        {#each links as link, key (key)}
+          <li>
+            <a
+              class="page-link"
+              class:active={link.active}
+              use:inertia
+              href={link.url}
+              aria-label="Goto page {link.label}">
+              {@html link.label}
+            </a>
+          </li>
+        {/each}
       {/if}
-      {/each}
     </ul>
-    {/if}
   </nav>
+
+  <style>
+    .pagination {
+      padding: 10px;
+    }
+  </style>
