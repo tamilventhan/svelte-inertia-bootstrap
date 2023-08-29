@@ -3,13 +3,14 @@
     import { inertia, router } from "@inertiajs/svelte";
     import Layout from "@/Shared/Layout.svelte";
     import Pagination from "@/Shared/Pagination.svelte";
+    export let projects;
 
     let pagetitle = "Projects";
     let filters = {
         search: "",
     };
     let showButton = false;
-    async function deleteCustomer(id) {
+    async function deleteProject(id) {
         const result = await Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -36,12 +37,11 @@
 </svelte:head>
 
 <Layout>
-
     <div class="d-flex justify-content-between p-3">
         <div>
             <a
                 use:inertia
-                href="/customers/create"
+                href="/projects/create"
                 class="btn btn-secondary btn-sm"
                 data-bs-toggle="modal"
                 data-bs-target="#myModal"
@@ -54,54 +54,64 @@
         </label>
     </div>
     <div>
+        <div class="p-2">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name of the project</th>
+                        <th>Programming language</th>
+                        <th>Assigned Person</th>
+                        <th>Start date</th>
+                        <th>End date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#each projects.data as project, i}
+                        <tr>
+                            <td class="text-left">{i + 1}</td>
+                            <td class="text-left">{project.name}</td>
+                            <td class="text-left">{project.language}</td>
+                            <td class="text-left">{project.assigned_person}</td>
+                            <td class="text-left">{project.start_date}</td>
+                            <td class="text-left">{project.end_date}</td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-around">
+                                    <a
+                                        use:inertia
+                                        href="/customers/{project.id}"
+                                        class="btn btn-sm btn-primary ml-3"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#myModal"
+                                        on:click={() => (showButton = "")}
+                                        >show</a
+                                    >
 
-    <div class="p-5">
-
-        <table class="table table-striped">
-            <thead>
-                <th>S.No</th>
-                <th>Name of the project</th>
-                <th>programming language</th>
-                <th>assigned person</th>
-                <th>project start date</th>
-                <th>project end date</th>
-                <th>Actions</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td>
-                        <div>
-                            <button
-                                class="btn btn-sm btn-primary"
-                                data-bs-toggle="modal"
-                                data-bs-target="#myModal"
-                                on:click={() => (showButton = "")}>show</button
-                            >
-                            <button
-                                class="btn btn-sm btn-secondary"
-                                data-bs-toggle="modal"
-                                data-bs-target="#myModal"
-                                on:click={() => (showButton = true)}
-                                >edit</button
-                            >
-                            <button
-                                class="btn btn-sm btn-danger"
-                                on:click={() => deleteCustomer()}
-                                >delete</button
-                            >
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</Layout>
+                                    <a
+                                        use:inertia
+                                        href="/customers/{project.id}"
+                                        class="btn btn-sm btn-secondary ml-3"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#myModal"
+                                        on:click={() => (showButton = true)}
+                                        >edit</a
+                                    >
+                                    <button
+                                        class="btn btn-sm btn-danger ml-3"
+                                        on:click={() =>
+                                            deleteProject(project.id)}
+                                        >delete</button
+                                    >
+                                </div>
+                            </td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+        </div>
+    </div></Layout
+>
 
 <!-- Add Project Modal -->
 <div class="modal" id="myModal">
