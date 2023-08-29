@@ -17,9 +17,9 @@ class ProjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->words(3),
-            'language' => fake()->words(1),
-            'assigned_person' => fake()->name(),
+            'name' => fake()->sentence(3),
+            'language' => fake()->sentence(1),
+            'assigned_person' => fake()->firstNameMale(),
             'start_date'=>fake()->date(),
             'end_date'=>fake()->date(),
         ];
