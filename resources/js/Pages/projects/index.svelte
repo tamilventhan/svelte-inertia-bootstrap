@@ -1,15 +1,33 @@
 <script>
     import Swal from "sweetalert2";
-    import { inertia, router } from "@inertiajs/svelte";
+    import { inertia, router, useForm } from "@inertiajs/svelte";
     import Layout from "@/Shared/Layout.svelte";
     import Pagination from "@/Shared/Pagination.svelte";
-    export let projects;
 
+    export let projects;
+    export let project;
+    let form = useForm({
+        name: null,
+        language: null,
+        assigned_person: null,
+        start_date: null,
+        end_date: null,
+    });
+
+    export let errors;
+
+    function submit() {
+        router.post("/projects", form);
+    }
+    function update(id) {
+        router.put("/projects/" + id, customer);
+    }
     let pagetitle = "Projects";
     let filters = {
         search: "",
     };
     let showButton = false;
+
     async function deleteProject(id) {
         const result = await Swal.fire({
             title: "Are you sure?",
@@ -39,7 +57,7 @@
 <Layout>
     <div class="d-flex justify-content-between p-3">
         <div>
-            <a
+          <a
                 use:inertia
                 href="/projects/create"
                 class="btn btn-secondary btn-sm"
@@ -78,31 +96,27 @@
                             <td class="text-left">{project.end_date}</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-around">
-                                    <a
-                                        use:inertia
-                                        href="/customers/{project.id}"
+                                    <button
                                         class="btn btn-sm btn-primary ml-3"
                                         data-bs-toggle="modal"
                                         data-bs-target="#myModal"
                                         on:click={() => (showButton = "")}
-                                        >show</a
-                                    >
+                                        >show
+                                    </button>
 
-                                    <a
-                                        use:inertia
-                                        href="/customers/{project.id}"
+                                    <button
                                         class="btn btn-sm btn-secondary ml-3"
                                         data-bs-toggle="modal"
                                         data-bs-target="#myModal"
                                         on:click={() => (showButton = true)}
-                                        >edit</a
-                                    >
+                                        >edit
+                                    </button>
                                     <button
                                         class="btn btn-sm btn-danger ml-3"
                                         on:click={() =>
                                             deleteProject(project.id)}
-                                        >delete</button
-                                    >
+                                        >delete
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -144,56 +158,80 @@
                             </label>
                             <input
                                 type="text"
+                                bind:value={form.name}
                                 class="form-control"
                                 id="project-name"
                             />
+                            {#if errors.name}
+                                <div class="text-danger">{errors.name}</div>
+                            {/if}
                         </div>
                         <div class="form-group mb-2">
                             <!-- svelte-ignore a11y-label-has-associated-control -->
                             <label><strong>Programming language</strong></label>
                             <input
                                 type="text"
+                                bind:value={form.language}
                                 class="form-control"
                                 id="language"
                             />
+                            {#if errors.language}
+                                <div class="text-danger">{errors.language}</div>
+                            {/if}
                         </div>
                         <div class="form-group mb-2">
                             <!-- svelte-ignore a11y-label-has-associated-control -->
                             <label><strong>Assigned person</strong></label>
                             <input
                                 type="text"
+                                bind:value={form.assigned_person}
                                 class="form-control"
                                 id="assigned-person"
                             />
+                            {#if errors.assigned_person}
+                                <div class="text-danger">
+                                    {errors.assigned_person}
+                                </div>
+                            {/if}
                         </div>
                         <div class="form-group mb-2">
                             <!-- svelte-ignore a11y-label-has-associated-control -->
                             <label><strong>Project start date</strong></label>
                             <input
                                 type="date"
+                                bind:value={form.start_date}
                                 class="form-control"
                                 id="start-date"
                             />
+                            {#if errors.start_date}
+                                <div class="text-danger">
+                                    {errors.start_date}
+                                </div>
+                            {/if}
                         </div>
                         <div class="form-group mb-2">
                             <!-- svelte-ignore a11y-label-has-associated-control -->
                             <label><strong>Project end date</strong></label>
                             <input
                                 type="date"
+                                bind:value={form.end_date}
                                 class="form-control"
                                 id="end-date"
                             />
+                            {#if errors.end_date}
+                                <div class="text-danger">{errors.end_date}</div>
+                            {/if}
                         </div>
                     </form>
                 </div>
             {:else}
                 <div class="p-3">
                     <div>
-                        <p>Name of the project:</p>
-                        <p>Programming language:</p>
-                        <p>Assigned person:</p>
-                        <p>Project start date:</p>
-                        <p>Project end date:</p>
+                        <p>Name of the project:{form.name}</p>
+                        <p>Programming language:{form.language}</p>
+                        <p>Assigned person:{form.assigned_person}</p>
+                        <p>Project start date:{form.start_date}</p>
+                        <p>Project end date:{form.end_date}</p>
                     </div>
                 </div>
             {/if}
@@ -208,11 +246,11 @@
                         data-bs-dismiss="modal">Back</a
                     >
                     {#if !showButton && showButton !== ""}
-                        <button type="submit" class="btn btn-primary float-end"
+                        <button type="submit" on:click|preventDefault={submit} class="btn btn-primary float-end"
                             >Submit</button
                         >
                     {:else if showButton && showButton !== ""}
-                        <button type="submit" class="btn btn-primary float-end"
+                        <button type="submit" on:click|preventDefault={update(project.id)} class="btn btn-primary float-end"
                             >Update</button
                         >
                     {/if}
