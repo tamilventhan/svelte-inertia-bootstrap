@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use  Inertia\Inertia;
 use App\http\Controllers\CustomerController;
-use app\http\Controllers\ProjectController;
+use App\http\Controllers\ProjectController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');

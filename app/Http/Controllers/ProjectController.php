@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
@@ -13,7 +15,7 @@ class ProjectController extends Controller
     public function index()
     {
 
-        return Inertia::render('projects/index');
+        return Inertia::render('Projects/index');
     }
 
     /**
@@ -27,7 +29,7 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request)
     {
         //
     }
@@ -35,7 +37,7 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Project $project)
     {
         //
     }
@@ -43,7 +45,7 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Project $project)
     {
         //
     }
@@ -51,7 +53,7 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
         //
     }
@@ -59,7 +61,7 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project)
     {
         //
     }
