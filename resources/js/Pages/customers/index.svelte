@@ -27,12 +27,6 @@
             });
         }
     }
-<<<<<<< HEAD
-    let filters = {
-        search: "",
-    };
-    
-=======
 
     let filters = {
         search: ''
@@ -45,7 +39,6 @@
         })
       }
 
->>>>>>> 4e4c75dcc471942a87ee28fd770cc5480b439109
 </script>
 
 <svelte:head>
@@ -54,24 +47,6 @@
 
 <Layout>
     <div class="pb-5">
-<<<<<<< HEAD
-        <div class="d-flex justify-content-between mb-2">
-            <div class="p-2">
-                <a
-                    use:inertia
-                    href="/customers/create"
-                    class="btn btn-secondary btn-sm">Add Customer</a>
-            </div>
-            <div class="p-2">
-                <input
-                    type="text"
-                    bind:value={filters.search}
-                    name="search"
-                    placeholder="Search..."
-                    class="p-1"
-                />
-            </div>
-=======
 
         <div class="d-flex justify-content-between p-3">
             <div>
@@ -82,7 +57,6 @@
             <label>Search
                 <input type="text" bind:value={filters.search}>
             </label>
->>>>>>> 4e4c75dcc471942a87ee28fd770cc5480b439109
         </div>
         <div>
             <table class="table table-striped border-top">
