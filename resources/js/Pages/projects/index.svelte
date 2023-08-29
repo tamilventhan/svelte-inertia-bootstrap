@@ -12,7 +12,7 @@
 </svelte:head>
 
 <Layout>
-    <div>
+    <div class="p-5">
         <table class="table table-striped">
             <thead>
                 <th>S.No</th>
