@@ -15,7 +15,7 @@ class ProjectController extends Controller
     public function index()
     {
 
-        return Inertia::render('Projects/index');
+        return Inertia::render('projects/index');
     }
 
     /**
