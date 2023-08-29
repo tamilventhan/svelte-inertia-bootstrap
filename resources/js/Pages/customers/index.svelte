@@ -27,7 +27,19 @@
             });
         }
     }
-    </script>
+
+    let filters = {
+        search: ''
+        }
+
+    $: getSearchValue(filters)
+    function getSearchValue(payload) {
+        router.get('/customers', payload, {
+            preserveScroll: false,
+        })
+      }
+
+</script>
 
     <svelte:head>
         <title>{pagetitle}</title>
@@ -36,8 +48,15 @@
 <Layout>
     <div class="pb-5">
 
-        <div class="p-2">
-            <a use:inertia href="/customers/create" class="btn btn-secondary btn-sm" >Add Customer</a>
+        <div class="d-flex justify-content-between p-3">
+            <div>
+                <a use:inertia href="/customers/create" class="btn btn-secondary btn-sm" >Add Customer</a>
+                <!-- svelte-ignore a11y-invalid-attribute -->
+                <a use:inertia href="#" class="btn btn-secondary btn-sm" >Export Excel</a>
+            </div>
+            <label>Search
+                <input type="text" bind:value={filters.search}>
+            </label>
         </div>
 
         <div>
