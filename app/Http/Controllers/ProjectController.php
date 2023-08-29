@@ -2,20 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Project;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
-use Inertia\Inertia;
-
 class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('search');
 
-        return Inertia::render('projects/index');
+        $projects =Project::query()->where('name','LIKE','%' . $search. '%')
+                                    ->orwhere('language','LIKE','%' . $search. '%')
+                                    ->orwhere('assigned_person','LIKE','%' . $search. '%')
+                                    ->paginate(10);
+
+        return Inertia::render('projects/index',['projects' => $projects]);
     }
 
     /**
