@@ -36,7 +36,7 @@
 </svelte:head>
 
 <Layout>
-<<<<<<< HEAD
+
     <div class="d-flex justify-content-between p-3">
         <div>
             <a
@@ -54,9 +54,9 @@
         </label>
     </div>
     <div>
-=======
+
     <div class="p-5">
->>>>>>> ac4b9992877d03ff7f053723841dc6068b353adb
+
         <table class="table table-striped">
             <thead>
                 <th>S.No</th>
@@ -92,7 +92,7 @@
                             >
                             <button
                                 class="btn btn-sm btn-danger"
-                                on:click={() => deleteCustomer(project.id)}
+                                on:click={() => deleteCustomer()}
                                 >delete</button
                             >
                         </div>
