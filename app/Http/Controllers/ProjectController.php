@@ -50,7 +50,7 @@ class ProjectController extends Controller
         // $project->end_date=$request->end_date;
         // $project->save();
 
-        return redirect('/projects')->with('success',' project saved succesfully');
+        return to_route('projects.index')->with('success',' project saved succesfully');
     }
 
     /**
@@ -77,7 +77,7 @@ class ProjectController extends Controller
         $validated = $request->validated();
         $project->update($validated);
 
-        return redirect('/projects')->with('success',' project updated succesfully');
+        return to_route('projects.index')->with('success',' project updated succesfully');
     }
 
     /**
@@ -86,6 +86,6 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $project->delete();
-        return redirect('/projects')->with('success',' project deleted succesfully');
+        return to_route('projects.index')->with('success',' project deleted succesfully');
     }
 }
