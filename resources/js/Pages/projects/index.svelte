@@ -18,14 +18,14 @@
     let form = useForm(defaultform);
     export let errors;
 
-    function submitModal() {
+    function submit() {
         router.post("/projects", form);
         formElement.reset();
     }
-    function updateModal(id) {
+    function update(id) {
         router.put("/projects/" + id, form);
     }
-    function showModal(data) {
+    function show(data) {
         showButton = "";
         project = data;
     }
@@ -126,7 +126,7 @@
                                         class="btn btn-sm btn-primary ml-3"
                                         data-bs-toggle="modal"
                                         data-bs-target="#myModal"
-                                        on:click={() => showModal(project)}
+                                        on:click={() => show(project)}
                                         >Show
                                     </button>
 
@@ -290,14 +290,14 @@
                     {#if !showButton && showButton !== ""}
                         <button
                             type="submit"
-                            on:click|preventDefault={submitModal}
+                            on:click|preventDefault={submit}
                             class="btn btn-primary float-end">Submit</button
                         >
                     {:else if showButton && showButton !== ""}
                         <button
                             type="submit"
                             data-bs-dismiss="modal"
-                            on:click|preventDefault={updateModal(project.id)}
+                            on:click|preventDefault={update(project.id)}
                             class="btn btn-primary float-end">Update</button
                         >
                     {/if}
