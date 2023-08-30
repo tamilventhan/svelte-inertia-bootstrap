@@ -89,6 +89,7 @@
                 on:click={() => {
                     showButton = false;
                     form = useForm(defaultform);
+                    errors = {};
                 }}>Add Project</a>
         </div>
         <label
