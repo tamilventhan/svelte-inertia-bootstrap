@@ -14,20 +14,16 @@
         start_date: null,
         end_date: null,
     };
-    let form = useForm({
-        name: null,
-        language: null,
-        assigned_person: null,
-        start_date: null,
-        end_date: null,
-    });
+    let formElement;
+    let form = useForm(defaultform);
     export let errors;
 
     function submitModal() {
         router.post("/projects", form);
+        formElement.reset();
     }
     function updateModal(id) {
-        router.put("/projects/" + id, project);
+        router.put("/projects/" + id, form);
     }
     function showModal(data) {
         showButton = "";
@@ -35,8 +31,9 @@
     }
     function handleEditButton(data) {
         showButton = true;
+        project = data;
+        console.log(project.id);
         form.name = data.name;
-        console.log(form.name);
         form.language = data.language;
         form.assigned_person = data.assigned_person;
         form.start_date = data.start_date;
@@ -89,14 +86,14 @@
                 class="btn btn-secondary btn-sm"
                 data-bs-toggle="modal"
                 data-bs-target="#myModal"
-                on:click={() =>{
-                showButton = false;
-                form=defaultform;
+                on:click={() => {
+                    showButton = false;
+                    form = useForm(defaultform);
                 }}>Add Project</a
             >
         </div>
         <label
-            >Search
+            ><b>Search</b>
             <input type="text" bind:value={filters.search} />
         </label>
     </div>
@@ -106,18 +103,18 @@
                 <thead>
                     <tr>
                         <th>S.No</th>
-                        <th>Name of the project</th>
-                        <th>Programming language</th>
+                        <th>Name of the Project</th>
+                        <th>Programming Language</th>
                         <th>Assigned Person</th>
-                        <th>Start date</th>
-                        <th>End date</th>
-                        <th>Actions</th>
+                        <th class="text-center">Start Date</th>
+                        <th class="text-center">End Date</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {#each projects.data as project, i}
                         <tr>
-                            <td class="text-left">{i + 1}</td>
+                            <td class="text-center">{i + 1}</td>
                             <td class="text-left">{project.name}</td>
                             <td class="text-left">{project.language}</td>
                             <td class="text-left">{project.assigned_person}</td>
@@ -130,21 +127,22 @@
                                         data-bs-toggle="modal"
                                         data-bs-target="#myModal"
                                         on:click={() => showModal(project)}
-                                        >show
+                                        >Show
                                     </button>
 
                                     <button
                                         class="btn btn-sm btn-secondary ml-3"
                                         data-bs-toggle="modal"
                                         data-bs-target="#myModal"
-                                        on:click={() => handleEditButton(project)}
-                                        >edit
+                                        on:click={() =>
+                                            handleEditButton(project)}
+                                        >Edit
                                     </button>
                                     <button
                                         class="btn btn-sm btn-danger ml-3"
                                         on:click={() =>
                                             deleteProject(project.id)}
-                                        >delete
+                                        >Delete
                                     </button>
                                 </div>
                             </td>
@@ -182,7 +180,7 @@
             <!-- Modal body -->
             {#if showButton !== ""}
                 <div class="p-3 ml-5 mr-5">
-                    <form class="grid gap-3">
+                    <form class="grid gap-3" bind:this={formElement}>
                         <div class="form-group mb-2">
                             <!-- svelte-ignore a11y-label-has-associated-control -->
                             <label>
@@ -228,7 +226,7 @@
                         </div>
                         <div class="form-group mb-2">
                             <!-- svelte-ignore a11y-label-has-associated-control -->
-                            <label><strong>Project start date</strong></label>
+                            <label><strong>Project Start Date</strong></label>
                             <input
                                 type="date"
                                 bind:value={form.start_date}
@@ -243,7 +241,7 @@
                         </div>
                         <div class="form-group mb-2">
                             <!-- svelte-ignore a11y-label-has-associated-control -->
-                            <label><strong>Project end date</strong></label>
+                            <label><strong>Project End Date</strong></label>
                             <input
                                 type="date"
                                 bind:value={form.end_date}
@@ -260,10 +258,22 @@
                 <div class="p-3">
                     <div>
                         <p><b>Name of the project:</b> {project.name ?? "-"}</p>
-                        <p><b>Programming language:</b> {project.language ?? "-"}</p>
-                        <p><b>Assigned person:</b> {project.assigned_person ?? "-"}</p>
-                        <p><b>Project start date:</b> {project.start_date ?? "-"}</p>
-                        <p><b>Project end date:</b> {project.end_date ?? "-"}</p>
+                        <p>
+                            <b>Programming language:</b>
+                            {project.language ?? "-"}
+                        </p>
+                        <p>
+                            <b>Assigned person:</b>
+                            {project.assigned_person ?? "-"}
+                        </p>
+                        <p>
+                            <b>Project start date:</b>
+                            {project.start_date ?? "-"}
+                        </p>
+                        <p>
+                            <b>Project end date:</b>
+                            {project.end_date ?? "-"}
+                        </p>
                     </div>
                 </div>
             {/if}
@@ -280,12 +290,14 @@
                     {#if !showButton && showButton !== ""}
                         <button
                             type="submit"
+                            data-bs-dismiss="modal"
                             on:click|preventDefault={submitModal}
                             class="btn btn-primary float-end">Submit</button
                         >
                     {:else if showButton && showButton !== ""}
                         <button
                             type="submit"
+                            data-bs-dismiss="modal"
                             on:click|preventDefault={updateModal(project.id)}
                             class="btn btn-primary float-end">Update</button
                         >
