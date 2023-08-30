@@ -71,7 +71,7 @@
             <input type="text" bind:value={filters.search} />
         </label>
     </div>
-    <div>
+    <div class="mb-4">
         <div class="p-2">
             <table class="table table-striped table-bordered">
                 <thead>
@@ -127,8 +127,8 @@
                 <Pagination links={projects.links}/>
             </div>
         </div>
-    </div></Layout
->
+    </div>
+    </Layout>
 
 <!-- Add Project Modal -->
 <div class="modal" id="myModal">
@@ -146,8 +146,7 @@
                 <button
                     type="button"
                     class="btn-close"
-                    data-bs-dismiss="modal"
-                />
+                    data-bs-dismiss="modal"/>
             </div>
 
             <!-- Modal body -->
