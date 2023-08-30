@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Project;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 class ProjectController extends Controller
@@ -38,11 +37,19 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        $validated = $request->validated();
 
-        Gate::withoutAuthorization(function () use ($validated) {
-            $project = Project::create($validated);
-        });
+
+        // $validated = $request->validated();
+
+        // $project = Project::create($validated);
+
+        $project= new Project;
+        $project->name=$request->name;
+        $project->language=$request->language;
+        $project->assigned_person=$request->assigned_person;
+        $project->start_date=$request->start_date;
+        $project->end_date=$request->end_date;
+        $project->save();
 
         return redirect('/projects')->with('success',' project saved succesfully');
     }
