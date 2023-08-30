@@ -273,7 +273,7 @@
                 <div class="d-flex justify-content-end gap-2 p-2">
                     <a
                         use:inertia
-                        href="/customers"
+                        href="/projects"
                         class="btn btn-secondary float-start"
                         data-bs-dismiss="modal">Back</a
                     >
