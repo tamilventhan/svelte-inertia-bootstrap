@@ -7,6 +7,13 @@
     export let projects;
     let project;
 
+    let defaultform = {
+        name: null,
+        language: null,
+        assigned_person: null,
+        start_date: null,
+        end_date: null,
+    };
     let form = useForm({
         name: null,
         language: null,
@@ -14,7 +21,6 @@
         start_date: null,
         end_date: null,
     });
-
     export let errors;
 
     function submitModal() {
@@ -26,6 +32,15 @@
     function showModal(data) {
         showButton = "";
         project = data;
+    }
+    function handleEditButton(data) {
+        showButton = true;
+        form.name = data.name;
+        console.log(form.name);
+        form.language = data.language;
+        form.assigned_person = data.assigned_person;
+        form.start_date = data.start_date;
+        form.end_date = data.end_date;
     }
     let pagetitle = "Projects";
     let filters = {
@@ -74,7 +89,10 @@
                 class="btn btn-secondary btn-sm"
                 data-bs-toggle="modal"
                 data-bs-target="#myModal"
-                on:click={() => (showButton = false)}>Add Project</a
+                on:click={() =>{
+                showButton = false;
+                form=defaultform;
+                }}>Add Project</a
             >
         </div>
         <label
@@ -119,7 +137,7 @@
                                         class="btn btn-sm btn-secondary ml-3"
                                         data-bs-toggle="modal"
                                         data-bs-target="#myModal"
-                                        on:click={() => (showButton = true)}
+                                        on:click={() => handleEditButton(project)}
                                         >edit
                                     </button>
                                     <button
