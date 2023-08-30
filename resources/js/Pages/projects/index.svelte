@@ -241,11 +241,11 @@
             {:else}
                 <div class="p-3">
                     <div>
-                        <p>Name of the project:{project.name ?? "-"}</p>
-                        <p>Programming language:{project.language ?? "-"}</p>
-                        <p>Assigned person:{project.assigned_person ?? "-"}</p>
-                        <p>Project start date:{project.start_date ?? "-"}</p>
-                        <p>Project end date:{project.end_date ?? "-"}</p>
+                        <p><b>Name of the project:</b> {project.name ?? "-"}</p>
+                        <p><b>Programming language:</b> {project.language ?? "-"}</p>
+                        <p><b>Assigned person:</b> {project.assigned_person ?? "-"}</p>
+                        <p><b>Project start date:</b> {project.start_date ?? "-"}</p>
+                        <p><b>Project end date:</b> {project.end_date ?? "-"}</p>
                     </div>
                 </div>
             {/if}
