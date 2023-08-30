@@ -290,7 +290,6 @@
                     {#if !showButton && showButton !== ""}
                         <button
                             type="submit"
-                            data-bs-dismiss="modal"
                             on:click|preventDefault={submitModal}
                             class="btn btn-primary float-end">Submit</button
                         >
