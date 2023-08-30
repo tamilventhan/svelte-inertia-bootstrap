@@ -1,5 +1,5 @@
 <script>
-    import Swal from 'sweetalert2';
+    import Swal from "sweetalert2";
     import { inertia, router, useForm } from "@inertiajs/svelte";
     import Layout from "@/Shared/Layout.svelte";
     import Pagination from "@/Shared/Pagination.svelte";
@@ -26,11 +26,12 @@
         router.put("/projects/" + id, form);
     }
     function show(data) {
-        showButton = "";
+        showButton = true;
         project = data;
     }
     function handleEditButton(data) {
-        showButton = true;
+        selectedButton = true;
+        showButton=false;
         project = data;
         console.log(project.id);
         form.name = data.name;
@@ -49,7 +50,11 @@
             preserveScroll: false,
         });
     }
+    let selectedButton = false;
     let showButton = false;
+    let manualError = {
+        name: "Manual Error",
+    }
 
     async function deleteProject(id) {
         const result = await Swal.fire({
@@ -71,6 +76,20 @@
             });
         }
     }
+    let checkName;
+    let checkLanguage;
+    function handleError() {
+        console.log("Error");
+        console.log($form);
+        console.log($form.name);
+        if ($form.name == null) {
+            manualError.name = "asd asd asda sd Please enter a name";
+            // alert('Please enter name')
+        }
+        // else if (form.language=null) {
+        //     alert('Please enter language')
+        // }
+    }
 </script>
 
 <svelte:head>
@@ -87,10 +106,12 @@
                 data-bs-toggle="modal"
                 data-bs-target="#myModal"
                 on:click={() => {
-                    showButton = false;
+                    selectedButton = false;
+                    showButton=false;
                     form = useForm(defaultform);
                     errors = {};
-                }}>Add Project</a>
+                }}>Add Project</a
+            >
         </div>
         <label
             ><b>Search</b>
@@ -163,11 +184,11 @@
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header" style="background-color:#FFF0F0">
-                {#if showButton && showButton !== ""}
+                {#if selectedButton&&!showButton}
                     <h4 class="modal-title">Edit Project</h4>
-                {:else if !showButton && showButton !== ""}
+                {:else if !selectedButton&&!showButton}
                     <h4 class="modal-title">Add Project</h4>
-                {:else if showButton === ""}
+                {:else if showButton}
                     <h4 class="modal-title">Project Details</h4>
                 {/if}
                 <button
@@ -178,7 +199,7 @@
             </div>
 
             <!-- Modal body -->
-            {#if showButton !== ""}
+            {#if !showButton}
                 <div class="p-3 ml-5 mr-5">
                     <form class="grid gap-3" bind:this={formElement}>
                         <div class="form-group mb-2">
@@ -191,9 +212,10 @@
                                 bind:value={form.name}
                                 class="form-control"
                                 id="project-name"
+                                on:blur={handleError}
                             />
-                            {#if errors.name}
-                                <div class="text-danger">{errors.name}</div>
+                            {#if errors?.name || manualError?.name}
+                                <div class="text-danger">{errors?.name || manualError?.name}</div>
                             {/if}
                         </div>
                         <div class="form-group mb-2">
@@ -204,6 +226,7 @@
                                 bind:value={form.language}
                                 class="form-control"
                                 id="language"
+                                on:blur={handleError()}
                             />
                             {#if errors.language}
                                 <div class="text-danger">{errors.language}</div>
@@ -254,10 +277,10 @@
                         </div>
                     </form>
                 </div>
-            {:else}
+            {:else if showButton}
                 <div class="p-3">
                     <div>
-                        <p><b>Name of the project:</b> {project.name ?? "-"}</p>
+                        <p><b>Name of the project:</b> {project.name??"-"}</p>
                         <p>
                             <b>Programming language:</b>
                             {project.language ?? "-"}
@@ -287,13 +310,13 @@
                         class="btn btn-secondary float-start"
                         data-bs-dismiss="modal">Back</a
                     >
-                    {#if !showButton && showButton !== ""}
+                    {#if !selectedButton&&!showButton}
                         <button
                             type="submit"
                             on:click|preventDefault={submit}
                             class="btn btn-primary float-end">Submit</button
                         >
-                    {:else if showButton && showButton !== ""}
+                    {:else if selectedButton&&!showButton}
                         <button
                             type="submit"
                             data-bs-dismiss="modal"
