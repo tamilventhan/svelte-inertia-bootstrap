@@ -5,7 +5,8 @@
     import Pagination from "@/Shared/Pagination.svelte";
 
     export let projects;
-    export let project;
+    let project;
+    
     let form = useForm({
         name: null,
         language: null,
@@ -16,11 +17,15 @@
 
     export let errors;
 
-    function submit() {
+    function submitModal() {
         router.post("/projects", form);
     }
-    function update(id) {
+    function updateModal(id) {
         router.put("/projects/" + id, customer);
+    }
+    function showModal(data) {
+        showButton = "";
+        project = data;
     }
     let pagetitle = "Projects";
     let filters = {
@@ -71,7 +76,7 @@
             <input type="text" bind:value={filters.search} />
         </label>
     </div>
-    <div class="mb-4">
+    <div>
         <div class="p-2">
             <table class="table table-striped table-bordered">
                 <thead>
@@ -100,7 +105,7 @@
                                         class="btn btn-sm btn-primary ml-3"
                                         data-bs-toggle="modal"
                                         data-bs-target="#myModal"
-                                        on:click={() => (showButton = "")}
+                                        on:click={() => showModal(project)}
                                         >show
                                     </button>
 
@@ -128,7 +133,7 @@
             </div>
         </div>
     </div>
-    </Layout>
+</Layout>
 
 <!-- Add Project Modal -->
 <div class="modal" id="myModal">
@@ -229,11 +234,11 @@
             {:else}
                 <div class="p-3">
                     <div>
-                        <p>Name of the project:{form.name}</p>
-                        <p>Programming language:{form.language}</p>
-                        <p>Assigned person:{form.assigned_person}</p>
-                        <p>Project start date:{form.start_date}</p>
-                        <p>Project end date:{form.end_date}</p>
+                        <p>Name of the project:{project.name}</p>
+                        <p>Programming language:{project.language}</p>
+                        <p>Assigned person:{project.assigned_person}</p>
+                        <p>Project start date:{project.start_date}</p>
+                        <p>Project end date:{project.end_date}</p>
                     </div>
                 </div>
             {/if}
@@ -250,13 +255,13 @@
                     {#if !showButton && showButton !== ""}
                         <button
                             type="submit"
-                            on:click|preventDefault={submit}
+                            on:click|preventDefault={submitModal}
                             class="btn btn-primary float-end">Submit</button
                         >
                     {:else if showButton && showButton !== ""}
                         <button
                             type="submit"
-                            on:click|preventDefault={update(project.id)}
+                            on:click|preventDefault={updateModal(project.id)}
                             class="btn btn-primary float-end">Update</button
                         >
                     {/if}
