@@ -1,5 +1,5 @@
 <script>
-    import Swal from "sweetalert2";
+    import Swal from 'sweetalert2';
     import { inertia, router, useForm } from "@inertiajs/svelte";
     import Layout from "@/Shared/Layout.svelte";
     import Pagination from "@/Shared/Pagination.svelte";
@@ -89,12 +89,11 @@
                 on:click={() => {
                     showButton = false;
                     form = useForm(defaultform);
-                }}>Add Project</a
-            >
+                }}>Add Project</a>
         </div>
         <label
             ><b>Search</b>
-            <input type="text" bind:value={filters.search} />
+            <input type="search" bind:value={filters.search} />
         </label>
     </div>
     <div>
