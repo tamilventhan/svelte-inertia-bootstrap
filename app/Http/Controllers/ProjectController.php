@@ -38,18 +38,17 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
 
+        $validated = $request->validated();
 
-        // $validated = $request->validated();
+        $project = Project::create($validated);
 
-        // $project = Project::create($validated);
-
-        $project= new Project;
-        $project->name=$request->name;
-        $project->language=$request->language;
-        $project->assigned_person=$request->assigned_person;
-        $project->start_date=$request->start_date;
-        $project->end_date=$request->end_date;
-        $project->save();
+        // $project= new Project;
+        // $project->name=$request->name;
+        // $project->language=$request->language;
+        // $project->assigned_person=$request->assigned_person;
+        // $project->start_date=$request->start_date;
+        // $project->end_date=$request->end_date;
+        // $project->save();
 
         return redirect('/projects')->with('success',' project saved succesfully');
     }
