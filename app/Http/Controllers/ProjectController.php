@@ -37,7 +37,11 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $project = Project::create($validated);
+
+        return redirect('/projects')->with('success',' project saved succesfully');
     }
 
     /**
