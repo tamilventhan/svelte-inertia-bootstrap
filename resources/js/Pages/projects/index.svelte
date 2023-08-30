@@ -57,7 +57,7 @@
 <Layout>
     <div class="d-flex justify-content-between p-3">
         <div>
-          <a
+            <a
                 use:inertia
                 href="/projects/create"
                 class="btn btn-secondary btn-sm"
@@ -123,6 +123,9 @@
                     {/each}
                 </tbody>
             </table>
+            <div class="d-flex justify-content-end">
+                <Pagination links={projects.links}/>
+            </div>
         </div>
     </div></Layout
 >
@@ -246,12 +249,16 @@
                         data-bs-dismiss="modal">Back</a
                     >
                     {#if !showButton && showButton !== ""}
-                        <button type="submit" on:click|preventDefault={submit} class="btn btn-primary float-end"
-                            >Submit</button
+                        <button
+                            type="submit"
+                            on:click|preventDefault={submit}
+                            class="btn btn-primary float-end">Submit</button
                         >
                     {:else if showButton && showButton !== ""}
-                        <button type="submit" on:click|preventDefault={update(project.id)} class="btn btn-primary float-end"
-                            >Update</button
+                        <button
+                            type="submit"
+                            on:click|preventDefault={update(project.id)}
+                            class="btn btn-primary float-end">Update</button
                         >
                     {/if}
                 </div>
