@@ -98,7 +98,7 @@
         </label>
     </div>
     <div>
-        <div class="p-2">
+        <div class="p-2 mb-5">
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
