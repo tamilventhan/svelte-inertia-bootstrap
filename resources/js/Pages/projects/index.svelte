@@ -6,7 +6,7 @@
 
     export let projects;
     let project;
-    
+
     let form = useForm({
         name: null,
         language: null,
@@ -21,7 +21,7 @@
         router.post("/projects", form);
     }
     function updateModal(id) {
-        router.put("/projects/" + id, customer);
+        router.put("/projects/" + id, project);
     }
     function showModal(data) {
         showButton = "";
@@ -31,6 +31,12 @@
     let filters = {
         search: "",
     };
+    $: getSearchValue(filters);
+    function getSearchValue(payload) {
+        router.get("/projects", payload, {
+            preserveScroll: false,
+        });
+    }
     let showButton = false;
 
     async function deleteProject(id) {
@@ -129,14 +135,14 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-end">
-                <Pagination links={projects.links}/>
+                <Pagination links={projects.links} />
             </div>
         </div>
     </div>
 </Layout>
 
 <!-- Add Project Modal -->
-<div class="modal" id="myModal">
+<div class="modal" id="myModal" data-bs-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!-- Modal Header -->
@@ -151,7 +157,8 @@
                 <button
                     type="button"
                     class="btn-close"
-                    data-bs-dismiss="modal"/>
+                    data-bs-dismiss="modal"
+                />
             </div>
 
             <!-- Modal body -->
@@ -234,11 +241,11 @@
             {:else}
                 <div class="p-3">
                     <div>
-                        <p>Name of the project:{project.name??'-'}</p>
-                        <p>Programming language:{project.language??'-'}</p>
-                        <p>Assigned person:{project.assigned_person??'-'}</p>
-                        <p>Project start date:{project.start_date??'-'}</p>
-                        <p>Project end date:{project.end_date??'-'}</p>
+                        <p>Name of the project:{project.name ?? "-"}</p>
+                        <p>Programming language:{project.language ?? "-"}</p>
+                        <p>Assigned person:{project.assigned_person ?? "-"}</p>
+                        <p>Project start date:{project.start_date ?? "-"}</p>
+                        <p>Project end date:{project.end_date ?? "-"}</p>
                     </div>
                 </div>
             {/if}
