@@ -22,7 +22,7 @@
     function submit() {
         if(success) {
         router.post("/projects", form);
-        formElement.reset();
+        form = useForm(defaultform);
         }
     }
     function update(id) {
