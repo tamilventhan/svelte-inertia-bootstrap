@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use  Inertia\Inertia;
 use App\http\Controllers\CustomerController;
 use App\http\Controllers\ProjectController;
+use App\Http\Controllers\Auth\LoginRegisterController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
