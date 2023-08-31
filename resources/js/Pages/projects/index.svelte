@@ -19,8 +19,9 @@
     export let errors;
 
     function submit() {
-            router.post("/projects", form);
-            form = useForm(defaultform);
+        focusedInput = {};
+        router.post("/projects", form);
+        form = useForm(defaultform);
     }
     function update(id) {
         router.put("/projects/" + id, form);
@@ -140,7 +141,7 @@
                     form = useForm(defaultform);
                     errors = {};
                     checkvalidation = {};
-                    focusedInput={};
+                    focusedInput = {};
                 }}>Add Project</a
             >
         </div>
@@ -226,7 +227,7 @@
                     type="button"
                     class="btn-close"
                     data-bs-dismiss="modal"
-                    on:click={()=>focusedInput={}}
+                    on:click={() => (focusedInput = {})}
                 />
             </div>
 
@@ -248,11 +249,8 @@
                                 on:blur={() => handleError()}
                             />
                             {#if errors?.name || checkvalidation?.name}
-                                <div class="text-danger">{errors?.name || checkvalidation?.name}</div>
-                            {/if}
-                            {#if checkvalidation.name}
                                 <div class="text-danger">
-                                    {checkvalidation.name}
+                                    {errors?.name || checkvalidation?.name}
                                 </div>
                             {/if}
                         </div>
@@ -267,12 +265,10 @@
                                 on:focus={() => (focusedInput.language = true)}
                                 on:blur={handleError()}
                             />
-                            <!-- {#if errors.language}
-                                <div class="text-danger">{errors.language}</div>
-                            {/if} -->
-                            {#if checkvalidation.language}
+                            {#if errors?.language || checkvalidation?.language}
                                 <div class="text-danger">
-                                    {checkvalidation.language}
+                                    {errors.language ||
+                                        checkvalidation?.language}
                                 </div>
                             {/if}
                         </div>
@@ -288,14 +284,10 @@
                                     (focusedInput.assigned_person = true)}
                                 on:blur={() => handleError()}
                             />
-                            <!-- {#if errors.assigned_person}
+                            {#if errors?.assigned_person || checkvalidation?.assigned_person}
                                 <div class="text-danger">
-                                    {errors.assigned_person}
-                                </div>
-                            {/if} -->
-                            {#if checkvalidation.assigned_person}
-                                <div class="text-danger">
-                                    {checkvalidation.assigned_person}
+                                    {errors?.assigned_person ||
+                                        checkvalidation?.assigned_person}
                                 </div>
                             {/if}
                         </div>
@@ -311,14 +303,10 @@
                                     (focusedInput.start_date = true)}
                                 on:blur={() => handleError()}
                             />
-                            <!-- {#if errors.start_date}
+                            {#if errors?.start_date || checkvalidation?.start_date}
                                 <div class="text-danger">
-                                    {errors.start_date}
-                                </div>
-                            {/if} -->
-                            {#if checkvalidation.start_date}
-                                <div class="text-danger">
-                                    {checkvalidation.start_date}
+                                    {errors?.start_date ||
+                                        checkvalidation?.start_date}
                                 </div>
                             {/if}
                         </div>
@@ -333,12 +321,10 @@
                                 on:focus={() => (focusedInput.end_date = true)}
                                 on:blur={() => handleError()}
                             />
-                            <!-- {#if errors.end_date}
-                                <div class="text-danger">{errors.end_date}</div>
-                            {/if} -->
-                            {#if checkvalidation.end_date}
+                            {#if errors?.end_date || checkvalidation?.end_date}
                                 <div class="text-danger">
-                                    {checkvalidation.end_date}
+                                    {errors?.end_date ||
+                                        checkvalidation?.end_date}
                                 </div>
                             {/if}
                         </div>
@@ -376,8 +362,7 @@
                         href="/projects"
                         class="btn btn-secondary float-start"
                         data-bs-dismiss="modal"
-                        on:click={()=>focusedInput={}}
-                        >Back</a
+                        on:click={() => (focusedInput = {})}>Back</a
                     >
                     {#if !selectedButton && !showButton}
                         <button
