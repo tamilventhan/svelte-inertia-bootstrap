@@ -87,6 +87,7 @@
     };
     let success=true;
     function handleError() {
+        checkvalidation={};
         if (form.name === undefined || form.name == "") {
             checkvalidation.name = "Name is required";
             success = false;
@@ -246,7 +247,7 @@
                                 bind:value={form.name}
                                 class="form-control"
                                 id="project-name"
-                                on:change={() => handleError()}
+                                on:blur={() => handleError()}
                             />
                             <!-- {#if errors?.name || manualError?.name}
                                 <div class="text-danger">{errors?.name || manualError?.name}</div>
@@ -263,7 +264,7 @@
                                 bind:value={form.language}
                                 class="form-control"
                                 id="language"
-                                on:change={handleError()}
+                                on:blur={handleError()}
                             />
                             <!-- {#if errors.language}
                                 <div class="text-danger">{errors.language}</div>
@@ -280,7 +281,7 @@
                                 bind:value={form.assigned_person}
                                 class="form-control"
                                 id="assigned-person"
-                                on:change={() => handleError()}
+                                on:blur={() => handleError()}
                             />
                             <!-- {#if errors.assigned_person}
                                 <div class="text-danger">
@@ -299,7 +300,7 @@
                                 bind:value={form.start_date}
                                 class="form-control"
                                 id="start-date"
-                                on:change={() => handleError()}
+                                on:blur={() => handleError()}
                             />
                             <!-- {#if errors.start_date}
                                 <div class="text-danger">
@@ -318,7 +319,7 @@
                                 bind:value={form.end_date}
                                 class="form-control"
                                 id="end-date"
-                                on:change={() => handleError()}
+                                on:blur={() => handleError()}
                             />
                             <!-- {#if errors.end_date}
                                 <div class="text-danger">{errors.end_date}</div>
