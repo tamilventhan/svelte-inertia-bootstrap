@@ -16,6 +16,7 @@
     };
     let formElement;
     let form = useForm(defaultform);
+    console.log(form.name);
     export let errors;
 
     function submit() {
@@ -31,7 +32,7 @@
     }
     function handleEditButton(data) {
         selectedButton = true;
-        showButton=false;
+        showButton = false;
         project = data;
         console.log(project.id);
         form.name = data.name;
@@ -54,7 +55,7 @@
     let showButton = false;
     let manualError = {
         name: "Manual Error",
-    }
+    };
 
     async function deleteProject(id) {
         const result = await Swal.fire({
@@ -76,19 +77,39 @@
             });
         }
     }
-    let checkName;
-    let checkLanguage;
+    let checkvalidation = {
+        name: "",
+        language: "",
+        assigned_person: "",
+        start_date: "",
+        end_date: "",
+    };
     function handleError() {
-        console.log("Error");
-        console.log($form);
-        console.log($form.name);
-        if ($form.name == null) {
-            manualError.name = "asd asd asda sd Please enter a name";
-            // alert('Please enter name')
+        if (form.name === undefined || form.name == "") {
+            checkvalidation.name = "Name is required";
+        } else if(form.name) {
+            checkvalidation.name = "";
         }
-        // else if (form.language=null) {
-        //     alert('Please enter language')
-        // }
+        if (form.language === undefined || form.language == "") {
+            checkvalidation.language = "Language is required";
+        } else if(form.language) {
+            checkvalidation.language = "";
+        }
+        if (form.assigned_person === undefined || form.assigned_person == "") {
+            checkvalidation.assigned_person = "Assigned Person is required";
+        } else if(form.assigned_person) {
+            checkvalidation.assigned_person = "";
+        }
+        if (form.start_date === undefined || form.start_date == "") {
+            checkvalidation.start_date = "Start Date is required";
+        } else if(form.start_date) {
+            checkvalidation.start_date = "";
+        }
+        if (form.end_date === undefined || form.end_date == "") {
+            checkvalidation.end_date = "End Date is required";
+        } else if(form.end_date) {
+            checkvalidation.end_date = "";
+        }
     }
 </script>
 
@@ -107,7 +128,7 @@
                 data-bs-target="#myModal"
                 on:click={() => {
                     selectedButton = false;
-                    showButton=false;
+                    showButton = false;
                     form = useForm(defaultform);
                     errors = {};
                 }}>Add Project</a
@@ -184,9 +205,9 @@
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header" style="background-color:#FFF0F0">
-                {#if selectedButton&&!showButton}
+                {#if selectedButton && !showButton}
                     <h4 class="modal-title">Edit Project</h4>
-                {:else if !selectedButton&&!showButton}
+                {:else if !selectedButton && !showButton}
                     <h4 class="modal-title">Add Project</h4>
                 {:else if showButton}
                     <h4 class="modal-title">Project Details</h4>
@@ -212,10 +233,13 @@
                                 bind:value={form.name}
                                 class="form-control"
                                 id="project-name"
-                                on:blur={handleError}
+                                on:change={() => handleError()}
                             />
-                            {#if errors?.name || manualError?.name}
+                            <!-- {#if errors?.name || manualError?.name}
                                 <div class="text-danger">{errors?.name || manualError?.name}</div>
+                            {/if} -->
+                            {#if checkvalidation.name}
+                                <div>{checkvalidation.name}</div>
                             {/if}
                         </div>
                         <div class="form-group mb-2">
@@ -226,10 +250,13 @@
                                 bind:value={form.language}
                                 class="form-control"
                                 id="language"
-                                on:blur={handleError()}
+                                on:change={handleError()}
                             />
-                            {#if errors.language}
+                            <!-- {#if errors.language}
                                 <div class="text-danger">{errors.language}</div>
+                            {/if} -->
+                            {#if checkvalidation.language}
+                                <div>{checkvalidation.language}</div>
                             {/if}
                         </div>
                         <div class="form-group mb-2">
@@ -240,11 +267,15 @@
                                 bind:value={form.assigned_person}
                                 class="form-control"
                                 id="assigned-person"
+                                on:change={() => handleError()}
                             />
-                            {#if errors.assigned_person}
+                            <!-- {#if errors.assigned_person}
                                 <div class="text-danger">
                                     {errors.assigned_person}
                                 </div>
+                            {/if} -->
+                            {#if checkvalidation.assigned_person}
+                                <div>{checkvalidation.assigned_person}</div>
                             {/if}
                         </div>
                         <div class="form-group mb-2">
@@ -255,11 +286,15 @@
                                 bind:value={form.start_date}
                                 class="form-control"
                                 id="start-date"
+                                on:change={() => handleError()}
                             />
-                            {#if errors.start_date}
+                            <!-- {#if errors.start_date}
                                 <div class="text-danger">
                                     {errors.start_date}
                                 </div>
+                            {/if} -->
+                            {#if checkvalidation.start_date}
+                                <div>{checkvalidation.start_date}</div>
                             {/if}
                         </div>
                         <div class="form-group mb-2">
@@ -270,9 +305,13 @@
                                 bind:value={form.end_date}
                                 class="form-control"
                                 id="end-date"
+                                on:change={() => handleError()}
                             />
-                            {#if errors.end_date}
+                            <!-- {#if errors.end_date}
                                 <div class="text-danger">{errors.end_date}</div>
+                            {/if} -->
+                            {#if checkvalidation.end_date}
+                                <div>{checkvalidation.end_date}</div>
                             {/if}
                         </div>
                     </form>
@@ -280,7 +319,7 @@
             {:else if showButton}
                 <div class="p-3">
                     <div>
-                        <p><b>Name of the project:</b> {project.name??"-"}</p>
+                        <p><b>Name of the project:</b> {project.name ?? "-"}</p>
                         <p>
                             <b>Programming language:</b>
                             {project.language ?? "-"}
@@ -310,13 +349,13 @@
                         class="btn btn-secondary float-start"
                         data-bs-dismiss="modal">Back</a
                     >
-                    {#if !selectedButton&&!showButton}
+                    {#if !selectedButton && !showButton}
                         <button
                             type="submit"
                             on:click|preventDefault={submit}
                             class="btn btn-primary float-end">Submit</button
                         >
-                    {:else if selectedButton&&!showButton}
+                    {:else if selectedButton && !showButton}
                         <button
                             type="submit"
                             data-bs-dismiss="modal"
