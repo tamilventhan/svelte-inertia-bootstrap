@@ -13,7 +13,7 @@ import {inertia} from '@inertiajs/svelte'
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
                     <li class="nav-item"><a use:inertia class="nav-link" href="/">Home</a></li>
                     <li class="nav-item"><a use:inertia class="nav-link" href="/customers">Customers</a></li>
-                    <li class="nav-item"><a use:inertia class="nav-link" href="/">Projects</a></li>
+                    <li class="nav-item"><a use:inertia class="nav-link" href="/projects">Projects</a></li>
                     <li class="nav-item"><a use:inertia class="nav-link" href="/">Contact</a></li>
                 </ul>
             </div>
