@@ -14,7 +14,6 @@
         start_date: null,
         end_date: null,
     };
-    let formElement;
     let form = useForm(defaultform);
     console.log(form.name);
     export let errors;
@@ -144,6 +143,7 @@
                     showButton = false;
                     form = useForm(defaultform);
                     errors = {};
+                    checkvalidation={};
                 }}>Add Project</a
             >
         </div>
@@ -235,7 +235,7 @@
             <!-- Modal body -->
             {#if !showButton}
                 <div class="p-3 ml-5 mr-5">
-                    <form class="grid gap-3" bind:this={formElement}>
+                    <form class="grid gap-3">
                         <div class="form-group mb-2">
                             <!-- svelte-ignore a11y-label-has-associated-control -->
                             <label>
