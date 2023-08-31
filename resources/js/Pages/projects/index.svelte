@@ -19,10 +19,8 @@
     export let errors;
 
     function submit() {
-        if(success) {
-        router.post("/projects", form);
-        form = useForm(defaultform);
-        }
+            router.post("/projects", form);
+            form = useForm(defaultform);
     }
     function update(id) {
         router.put("/projects/" + id, form);
@@ -85,43 +83,40 @@
         start_date: "",
         end_date: "",
     };
-    let success=true;
+    let focusedInput = {
+        name: false,
+        language: false,
+        assigned_person: false,
+        start_date: false,
+        end_date: false,
+    };
+
     function handleError() {
-        checkvalidation={};
-        if (form.name === undefined || form.name == "") {
+        checkvalidation = {};
+        if (!form.name && focusedInput.name) {
             checkvalidation.name = "Name is required";
-            success = false;
-        } else if(form.name) {
+        } else if (form.name) {
             checkvalidation.name = "";
-            success=true;
         }
-        if (form.language === undefined || form.language == "") {
+        if (!form.language && focusedInput.language) {
             checkvalidation.language = "Language is required";
-            success = false;
-        } else if(form.language) {
+        } else if (form.language) {
             checkvalidation.language = "";
-            success=true;
         }
-        if (form.assigned_person === undefined || form.assigned_person == "") {
+        if (!form.assigned_person && focusedInput.assigned_person) {
             checkvalidation.assigned_person = "Assigned Person is required";
-            success = false;
-        } else if(form.assigned_person) {
+        } else if (form.assigned_person) {
             checkvalidation.assigned_person = "";
-            success=true;
         }
-        if (form.start_date === undefined || form.start_date == "") {
+        if (!form.start_date && focusedInput.start_date) {
             checkvalidation.start_date = "Start Date is required";
-            success = false;
-        } else if(form.start_date) {
+        } else if (form.start_date) {
             checkvalidation.start_date = "";
-            success=true;
         }
-        if (form.end_date === undefined || form.end_date == "") {
+        if (!form.end_date && focusedInput.end_date) {
             checkvalidation.end_date = "End Date is required";
-            success = false;
-        } else if(form.end_date) {
+        } else if (form.end_date) {
             checkvalidation.end_date = "";
-            success=true;
         }
     }
 </script>
@@ -144,7 +139,8 @@
                     showButton = false;
                     form = useForm(defaultform);
                     errors = {};
-                    checkvalidation={};
+                    checkvalidation = {};
+                    focusedInput={};
                 }}>Add Project</a
             >
         </div>
@@ -230,6 +226,7 @@
                     type="button"
                     class="btn-close"
                     data-bs-dismiss="modal"
+                    on:click={()=>focusedInput={}}
                 />
             </div>
 
@@ -247,13 +244,16 @@
                                 bind:value={form.name}
                                 class="form-control"
                                 id="project-name"
+                                on:focus={() => (focusedInput.name = true)}
                                 on:blur={() => handleError()}
                             />
-                            <!-- {#if errors?.name || manualError?.name}
-                                <div class="text-danger">{errors?.name || manualError?.name}</div>
-                            {/if} -->
+                            {#if errors?.name || checkvalidation?.name}
+                                <div class="text-danger">{errors?.name || checkvalidation?.name}</div>
+                            {/if}
                             {#if checkvalidation.name}
-                                <div class="text-danger">{checkvalidation.name}</div>
+                                <div class="text-danger">
+                                    {checkvalidation.name}
+                                </div>
                             {/if}
                         </div>
                         <div class="form-group mb-2">
@@ -264,13 +264,16 @@
                                 bind:value={form.language}
                                 class="form-control"
                                 id="language"
+                                on:focus={() => (focusedInput.language = true)}
                                 on:blur={handleError()}
                             />
                             <!-- {#if errors.language}
                                 <div class="text-danger">{errors.language}</div>
                             {/if} -->
                             {#if checkvalidation.language}
-                                <div class="text-danger">{checkvalidation.language}</div>
+                                <div class="text-danger">
+                                    {checkvalidation.language}
+                                </div>
                             {/if}
                         </div>
                         <div class="form-group mb-2">
@@ -281,6 +284,8 @@
                                 bind:value={form.assigned_person}
                                 class="form-control"
                                 id="assigned-person"
+                                on:focus={() =>
+                                    (focusedInput.assigned_person = true)}
                                 on:blur={() => handleError()}
                             />
                             <!-- {#if errors.assigned_person}
@@ -289,7 +294,9 @@
                                 </div>
                             {/if} -->
                             {#if checkvalidation.assigned_person}
-                                <div class="text-danger">{checkvalidation.assigned_person}</div>
+                                <div class="text-danger">
+                                    {checkvalidation.assigned_person}
+                                </div>
                             {/if}
                         </div>
                         <div class="form-group mb-2">
@@ -300,6 +307,8 @@
                                 bind:value={form.start_date}
                                 class="form-control"
                                 id="start-date"
+                                on:focus={() =>
+                                    (focusedInput.start_date = true)}
                                 on:blur={() => handleError()}
                             />
                             <!-- {#if errors.start_date}
@@ -308,7 +317,9 @@
                                 </div>
                             {/if} -->
                             {#if checkvalidation.start_date}
-                                <div class="text-danger">{checkvalidation.start_date}</div>
+                                <div class="text-danger">
+                                    {checkvalidation.start_date}
+                                </div>
                             {/if}
                         </div>
                         <div class="form-group mb-2">
@@ -319,13 +330,16 @@
                                 bind:value={form.end_date}
                                 class="form-control"
                                 id="end-date"
+                                on:focus={() => (focusedInput.end_date = true)}
                                 on:blur={() => handleError()}
                             />
                             <!-- {#if errors.end_date}
                                 <div class="text-danger">{errors.end_date}</div>
                             {/if} -->
                             {#if checkvalidation.end_date}
-                                <div class="text-danger">{checkvalidation.end_date}</div>
+                                <div class="text-danger">
+                                    {checkvalidation.end_date}
+                                </div>
                             {/if}
                         </div>
                     </form>
@@ -361,7 +375,9 @@
                         use:inertia
                         href="/projects"
                         class="btn btn-secondary float-start"
-                        data-bs-dismiss="modal">Back</a
+                        data-bs-dismiss="modal"
+                        on:click={()=>focusedInput={}}
+                        >Back</a
                     >
                     {#if !selectedButton && !showButton}
                         <button
