@@ -24,6 +24,7 @@
         form = useForm(defaultform);
     }
     function update(id) {
+        focusedInput = {};
         router.put("/projects/" + id, form);
     }
     function show(data) {
