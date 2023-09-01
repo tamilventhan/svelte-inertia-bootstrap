@@ -50,11 +50,9 @@
             preserveScroll: false,
         });
     }
+
     let selectedButton = false;
     let showButton = false;
-    let manualError = {
-        name: "Manual Error",
-    }
 
     async function deleteProject(id) {
         const result = await Swal.fire({
@@ -76,20 +74,7 @@
             });
         }
     }
-    let checkName;
-    let checkLanguage;
-    function handleError() {
-        console.log("Error");
-        console.log($form);
-        console.log($form.name);
-        if ($form.name == null) {
-            manualError.name = "asd asd asda sd Please enter a name";
-            // alert('Please enter name')
-        }
-        // else if (form.language=null) {
-        //     alert('Please enter language')
-        // }
-    }
+
 </script>
 
 <svelte:head>
@@ -212,10 +197,9 @@
                                 bind:value={form.name}
                                 class="form-control"
                                 id="project-name"
-                                on:blur={handleError}
                             />
-                            {#if errors?.name || manualError?.name}
-                                <div class="text-danger">{errors?.name || manualError?.name}</div>
+                            {#if errors?.name}
+                                <div class="text-danger">{errors?.name}</div>
                             {/if}
                         </div>
                         <div class="form-group mb-2">
@@ -226,7 +210,6 @@
                                 bind:value={form.language}
                                 class="form-control"
                                 id="language"
-                                on:blur={handleError()}
                             />
                             {#if errors.language}
                                 <div class="text-danger">{errors.language}</div>
