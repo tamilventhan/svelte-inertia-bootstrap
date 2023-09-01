@@ -5,7 +5,7 @@
 
 
 <Layout>
-    <div class="login-page bg-light">
+    <div class="d-flex align-items-center" style="height: 100vh;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 offset-lg-1">
@@ -15,20 +15,18 @@
                                 <div class="form-left h-100 py-5 px-5">
                                     <form action="" class="row g-4">
                                             <div class="col-12">
-                                                <!-- svelte-ignore a11y-label-has-associated-control -->
-                                                <label>Username<span class="text-danger">*</span></label>
+                                                <label for="username">Username<span class="text-danger">*</span></label>
                                                 <div class="input-group">
                                                     <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
-                                                    <input type="text" class="form-control" placeholder="Enter Username">
+                                                    <input type="text" name="username" class="form-control" placeholder="Enter Username">
                                                 </div>
                                             </div>
 
                                             <div class="col-12">
-                                                <!-- svelte-ignore a11y-label-has-associated-control -->
-                                                <label>Password<span class="text-danger">*</span></label>
+                                                <label for="username">Password<span class="text-danger">*</span></label>
                                                 <div class="input-group">
                                                     <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
-                                                    <input type="text" class="form-control" placeholder="Enter Password">
+                                                    <input type="text" name="username" class="form-control" placeholder="Enter Password">
                                                 </div>
                                             </div>
 
@@ -40,7 +38,7 @@
                                             </div>
 
                                             <div class="col-sm-6">
-                                                <a href="#" class="float-end text-primary">Forgot Password?</a>
+                                                <a href="/" class="float-end text-primary">Forgot Password?</a>
                                             </div>
 
                                             <div class="col-12">
@@ -53,28 +51,13 @@
                                 <div class="form-right h-100 bg-primary text-white text-center pt-5">
                                     <i class="bi bi-bootstrap"></i>
                                     <h2 class="fs-1">Welcome</h2>
+                                    <h4 class="fs-1">Login</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <p class="text-end text-secondary mt-3">Bootstrap 5 Login Page Design</p>
                 </div>
             </div>
         </div>
     </div>
 </Layout>
-<style>
-    a {
-    text-decoration: none;
-    }
-    .login-page {
-        width: 100%;
-        height: 100vh;
-        display: inline-block;
-        display: flex;
-        align-items: center;
-    }
-    .form-right i {
-        font-size: 100px;
-    }
-</style>
