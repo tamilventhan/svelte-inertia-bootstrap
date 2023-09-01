@@ -19,9 +19,10 @@
     export let errors;
 
     function submit() {
-        focusedInput = {};
+        checkvalidation = {};
         router.post("/projects", form);
         form = useForm(defaultform);
+        checkvalidation = {};
     }
     function update(id) {
         focusedInput = {};
@@ -95,21 +96,36 @@
 
     function handleError() {
         checkvalidation = {};
+
         if (!form.name && focusedInput.name) {
             checkvalidation.name = "Name is required";
         } else if (form.name) {
-            checkvalidation.name = "";
+            if (!/^[a-zA-Z]+$/.test(form.name)) {
+                checkvalidation.name =
+                    "Name should contain only alphabetic characters";
+            } else {
+                checkvalidation.name = "";
+            }
         }
         if (!form.language && focusedInput.language) {
             checkvalidation.language = "Language is required";
         } else if (form.language) {
-            checkvalidation.language = "";
+            if (!/^[a-zA-Z]+$/.test(form.language)) {
+                checkvalidation.language =
+                    "Language should contain only alphabetic characters";
+            } else {
+                checkvalidation.language = "";
+            }
         }
         if (!form.assigned_person && focusedInput.assigned_person) {
-            checkvalidation.assigned_person = "Assigned Person is required";
-        } else if (form.assigned_person) {
+        checkvalidation.assigned_person = "Assigned Person is required";
+    } else if (form.assigned_person) {
+        if (!/^[a-zA-Z]+$/.test(form.assigned_person)) {
+            checkvalidation.assigned_person = "Assigned Person should contain only alphabetic characters";
+        } else {
             checkvalidation.assigned_person = "";
         }
+    }
         if (!form.start_date && focusedInput.start_date) {
             checkvalidation.start_date = "Start Date is required";
         } else if (form.start_date) {
@@ -247,7 +263,7 @@
                                 class="form-control"
                                 id="project-name"
                                 on:focus={() => (focusedInput.name = true)}
-                                on:blur={() => handleError()}
+                                on:keyup={() => handleError()}
                             />
                             {#if errors?.name || checkvalidation?.name}
                                 <div class="text-danger">
@@ -264,7 +280,7 @@
                                 class="form-control"
                                 id="language"
                                 on:focus={() => (focusedInput.language = true)}
-                                on:blur={handleError()}
+                                on:keyup={handleError()}
                             />
                             {#if errors?.language || checkvalidation?.language}
                                 <div class="text-danger">
@@ -283,7 +299,7 @@
                                 id="assigned-person"
                                 on:focus={() =>
                                     (focusedInput.assigned_person = true)}
-                                on:blur={() => handleError()}
+                                on:keyup={() => handleError()}
                             />
                             {#if errors?.assigned_person || checkvalidation?.assigned_person}
                                 <div class="text-danger">
@@ -302,7 +318,7 @@
                                 id="start-date"
                                 on:focus={() =>
                                     (focusedInput.start_date = true)}
-                                on:blur={() => handleError()}
+                                on:keyup={() => handleError()}
                             />
                             {#if errors?.start_date || checkvalidation?.start_date}
                                 <div class="text-danger">
@@ -320,7 +336,7 @@
                                 class="form-control"
                                 id="end-date"
                                 on:focus={() => (focusedInput.end_date = true)}
-                                on:blur={() => handleError()}
+                                on:keyup={() => handleError()}
                             />
                             {#if errors?.end_date || checkvalidation?.end_date}
                                 <div class="text-danger">
