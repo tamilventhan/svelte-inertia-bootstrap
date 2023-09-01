@@ -1,6 +1,6 @@
 <script>
+    import { page, inertia, router, useForm } from "@inertiajs/svelte";
     import Swal from "sweetalert2";
-    import { inertia, router, useForm } from "@inertiajs/svelte";
     import Layout from "@/Shared/Layout.svelte";
     import Pagination from "@/Shared/Pagination.svelte";
 
@@ -21,8 +21,24 @@
     function submit() {
         checkvalidation = {};
         router.post("/projects", form);
-        form = useForm(defaultform);
-        checkvalidation = {};
+        console.log($page.props.flash);
+        if ($page.props.flash.type === "PROJECT_ADDED") {
+            Swal.fire({
+                icon: "success",
+                title: $page.props.flash.success,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            form = useForm(defaultform);
+            
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Something Went Wrong..",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        }
     }
     function update(id) {
         focusedInput = {};
@@ -118,14 +134,15 @@
             }
         }
         if (!form.assigned_person && focusedInput.assigned_person) {
-        checkvalidation.assigned_person = "Assigned Person is required";
-    } else if (form.assigned_person) {
-        if (!/^[a-zA-Z]+$/.test(form.assigned_person)) {
-            checkvalidation.assigned_person = "Assigned Person should contain only alphabetic characters";
-        } else {
-            checkvalidation.assigned_person = "";
+            checkvalidation.assigned_person = "Assigned Person is required";
+        } else if (form.assigned_person) {
+            if (!/^[a-zA-Z]+$/.test(form.assigned_person)) {
+                checkvalidation.assigned_person =
+                    "Assigned Person should contain only alphabetic characters";
+            } else {
+                checkvalidation.assigned_person = "";
+            }
         }
-    }
         if (!form.start_date && focusedInput.start_date) {
             checkvalidation.start_date = "Start Date is required";
         } else if (form.start_date) {
@@ -265,9 +282,9 @@
                                 on:focus={() => (focusedInput.name = true)}
                                 on:keyup={() => handleError()}
                             />
-                            {#if errors?.name || checkvalidation?.name}
+                            {#if errors.name || checkvalidation?.name}
                                 <div class="text-danger">
-                                    {errors?.name || checkvalidation?.name}
+                                    {errors.name || checkvalidation.name}
                                 </div>
                             {/if}
                         </div>
