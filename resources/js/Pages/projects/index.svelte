@@ -311,7 +311,7 @@
                                 class="form-control"
                                 id="project-name"
                                 on:focus={() => (focusedInput.name = true)}
-                                on:keyup={() => handleError()}
+                                on:input={() => handleError()}
                             />
                             {#if errors.name || checkvalidation?.name}
                                 <div class="text-danger">
@@ -328,7 +328,7 @@
                                 class="form-control"
                                 id="language"
                                 on:focus={() => (focusedInput.language = true)}
-                                on:keyup={() => handleError()}
+                                on:input={() => handleError()}
                             />
                             {#if errors?.language || checkvalidation?.language}
                                 <div class="text-danger">
@@ -347,7 +347,7 @@
                                 id="assigned-person"
                                 on:focus={() =>
                                     (focusedInput.assigned_person = true)}
-                                on:keyup={() => handleError()}
+                                on:input={() => handleError()}
                             />
                             {#if errors?.assigned_person || checkvalidation?.assigned_person}
                                 <div class="text-danger">
@@ -365,7 +365,7 @@
                                 class="form-control"
                                 id="start-date"
                                 on:focus={() => (focusedInput.start_date_date = true)}
-                                on:change={() => handleError()}
+                                on:input={() => handleError()}
                             />
                             {#if errors?.start_date || checkvalidation?.start_date}
                                 <div class="text-danger">
@@ -383,7 +383,7 @@
                                 class="form-control"
                                 id="end-date"
                                 on:focus={() => (focusedInput.end_date = true)}
-                                on:change={() => handleError()}
+                                on:input={() => handleError()}
                             />
                             {#if errors?.end_date || checkvalidation?.end_date}
                                 <div class="text-danger">
