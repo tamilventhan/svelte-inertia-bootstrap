@@ -39,10 +39,10 @@
                     timer: 1500,
                 });
             }
-        }, 600);
+        }, 1400);
     }
     function update(id) {
-        focusedInput = {};
+        checkvalidation = {};
         router.put("/projects/" + id, form);
         console.log($page.props.flash.success);
         setTimeout(() => {
@@ -53,9 +53,16 @@
                     showConfirmButton: false,
                     timer: 2000,
                 });
-                form = useForm(defaultform);
             }
-        }, 600);
+            else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Something Went Wrong..",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
+        }, 1400);
     }
     function show(data) {
         showButton = true;
@@ -164,7 +171,7 @@
         } else if (form.end_date) {
             checkvalidation.end_date = "";
         }  
-        }
+    }
 </script>
 
 <svelte:head>
@@ -418,7 +425,6 @@
                     {:else if selectedButton && !showButton}
                         <button
                             type="submit"
-                            data-bs-dismiss="modal"
                             on:click|preventDefault={update(project.id)}
                             class="btn btn-primary float-end">Update</button
                         >
