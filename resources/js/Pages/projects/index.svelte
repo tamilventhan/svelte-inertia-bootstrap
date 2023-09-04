@@ -1,6 +1,6 @@
 <script>
     import Swal from "sweetalert2";
-    import { inertia, router, useForm } from "@inertiajs/svelte";
+    import { page, inertia, router, useForm } from "@inertiajs/svelte";
     import Layout from "@/Shared/Layout.svelte";
     import Pagination from "@/Shared/Pagination.svelte";
 
@@ -20,10 +20,32 @@
 
     function submit() {
         router.post("/projects", form);
-        formElement.reset();
+            setTimeout(() => {
+            if ($page.props.flash.success === "Project saved succesfully") {
+                Swal.fire({
+                    icon: "success",
+                    title: $page.props.flash.success,
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                form = useForm(defaultform);
+            }
+        }, 600);
     }
     function update(id) {
         router.put("/projects/" + id, form);
+        console.log($page.props.flash.success);
+        setTimeout(() => {
+            if ($page.props.flash.success === "Project updated succesfully") {
+                Swal.fire({
+                    icon: "success",
+                    title: $page.props.flash.success,
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                form = useForm(defaultform);
+            }
+        }, 600);
     }
     function show(data) {
         showButton = true;
