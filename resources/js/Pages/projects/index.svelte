@@ -20,6 +20,7 @@
 
     function submit() {
         checkvalidation = {};
+        focusedInput = {};
         router.post("/projects", form);
         console.log($page.props.flash);
         setTimeout(() => {
@@ -38,8 +39,9 @@
                     showConfirmButton: false,
                     timer: 1500,
                 });
+                console.log(focusedInput);
             }
-        }, 1400);
+        }, 1500);
     }
     function update(id) {
         checkvalidation = {};
@@ -53,8 +55,7 @@
                     showConfirmButton: false,
                     timer: 2000,
                 });
-            }
-            else {
+            } else {
                 Swal.fire({
                     icon: "error",
                     title: "Something Went Wrong..",
@@ -62,7 +63,7 @@
                     timer: 1500,
                 });
             }
-        }, 1400);
+        }, 1500);
     }
     function show(data) {
         showButton = true;
@@ -129,8 +130,6 @@
     };
 
     function handleError() {
-        checkvalidation = {};
-
         if (!form.name && focusedInput.name) {
             checkvalidation.name = "Name is required";
         } else if (form.name) {
@@ -164,13 +163,23 @@
         if (!form.start_date && focusedInput.start_date) {
             checkvalidation.start_date = "Start Date is required";
         } else if (form.start_date) {
-            checkvalidation.start_date = "";
+            if (form.start_date > form.end_date) {
+                checkvalidation.start_date =
+                    "Start Date cannot be greater than End Date";
+            } else {
+                checkvalidation.end_date = "";
+            }
         }
         if (!form.end_date && focusedInput.end_date) {
             checkvalidation.end_date = "End Date is required";
         } else if (form.end_date) {
-            checkvalidation.end_date = "";
-        }  
+            if (form.end_date < form.start_date) {
+                checkvalidation.end_date =
+                    "End Date cannot be less than Start Date";
+            } else {
+                checkvalidation.end_date = "";
+            }
+        }
     }
 </script>
 
@@ -315,7 +324,7 @@
                                 class="form-control"
                                 id="language"
                                 on:focus={() => (focusedInput.language = true)}
-                                on:keyup={handleError()}
+                                on:keyup={() => handleError()}
                             />
                             {#if errors?.language || checkvalidation?.language}
                                 <div class="text-danger">
@@ -353,7 +362,7 @@
                                 id="start-date"
                                 on:focus={() =>
                                     (focusedInput.start_date = true)}
-                                on:keyup={() => handleError()}
+                                on:change={() => handleError()}
                             />
                             {#if errors?.start_date || checkvalidation?.start_date}
                                 <div class="text-danger">
@@ -371,7 +380,7 @@
                                 class="form-control"
                                 id="end-date"
                                 on:focus={() => (focusedInput.end_date = true)}
-                                on:keyup={() => handleError()}
+                                on:change={() => handleError()}
                             />
                             {#if errors?.end_date || checkvalidation?.end_date}
                                 <div class="text-danger">
