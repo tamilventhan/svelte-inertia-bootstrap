@@ -19,8 +19,7 @@
     export let errors;
 
     function submit() {
-        checkvalidation = {};
-        focusedInput = {};
+        
         router.post("/projects", form);
         console.log($page.props.flash);
         setTimeout(() => {
@@ -32,6 +31,8 @@
                     timer: 2000,
                 });
                 form = useForm(defaultform);
+                checkvalidation = {};
+        focusedInput = {};
             } else {
                 Swal.fire({
                     icon: "error",
@@ -40,6 +41,8 @@
                     timer: 1500,
                 });
                 console.log(focusedInput);
+                checkvalidation = {};
+        focusedInput = {};
             }
         }, 1500);
     }
@@ -140,6 +143,7 @@
                 checkvalidation.name = "";
             }
         }
+        console.log(!form.language && focusedInput.language);
         if (!form.language && focusedInput.language) {
             checkvalidation.language = "Language is required";
         } else if (form.language) {
@@ -167,7 +171,7 @@
                 checkvalidation.start_date =
                     "Start Date cannot be greater than End Date";
             } else {
-                checkvalidation.end_date = "";
+                checkvalidation.start_date = "";
             }
         }
         if (!form.end_date && focusedInput.end_date) {
@@ -360,8 +364,7 @@
                                 bind:value={form.start_date}
                                 class="form-control"
                                 id="start-date"
-                                on:focus={() =>
-                                    (focusedInput.start_date = true)}
+                                on:focus={() => (focusedInput.start_date_date = true)}
                                 on:change={() => handleError()}
                             />
                             {#if errors?.start_date || checkvalidation?.start_date}
