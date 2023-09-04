@@ -22,16 +22,17 @@
         checkvalidation = {};
         router.post("/projects", form);
         console.log($page.props.flash);
-        if ($page.props.flash.type === "PROJECT_ADDED") {
-            Swal.fire({
-                icon: "success",
-                title: $page.props.flash.success,
-                showConfirmButton: false,
-                timer: 1500,
-            });
-            form = useForm(defaultform);
-            
-        } else {
+            setTimeout(() => {
+            if ($page.props.flash.success === "Project saved succesfully") {
+                Swal.fire({
+                    icon: "success",
+                    title: $page.props.flash.success,
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                form = useForm(defaultform);
+            }
+            else {
             Swal.fire({
                 icon: "error",
                 title: "Something Went Wrong..",
@@ -39,10 +40,23 @@
                 timer: 1500,
             });
         }
+        }, 600);
     }
     function update(id) {
         focusedInput = {};
         router.put("/projects/" + id, form);
+        console.log($page.props.flash.success);
+        setTimeout(() => {
+            if ($page.props.flash.success === "Project updated succesfully") {
+                Swal.fire({
+                    icon: "success",
+                    title: $page.props.flash.success,
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                form = useForm(defaultform);
+            }
+        }, 600);
     }
     function show(data) {
         showButton = true;
@@ -69,11 +83,9 @@
             preserveScroll: false,
         });
     }
+
     let selectedButton = false;
     let showButton = false;
-    let manualError = {
-        name: "Manual Error",
-    };
 
     async function deleteProject(id) {
         const result = await Swal.fire({

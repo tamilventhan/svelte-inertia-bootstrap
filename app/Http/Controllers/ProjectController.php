@@ -51,9 +51,13 @@ class ProjectController extends Controller
         // $project->end_date=$request->end_date;
         // $project->save();
 
+<<<<<<< HEAD
         return to_route('projects.index')
             ->with('success', 'project saved succesfully')
             ->with('type', 'PROJECT_ADDED');
+=======
+        return to_route('projects.index')->with('success','Project saved succesfully');
+>>>>>>> f8a910c830b9cd1c1891b979c739f5fa5ba4c933
     }
 
     /**
@@ -80,7 +84,11 @@ class ProjectController extends Controller
         $validated = $request->validated();
         $project->update($validated);
 
+<<<<<<< HEAD
         return to_route('projects.index')->with('success', ' project updated succesfully');
+=======
+        return to_route('projects.index')->with('success','Project updated succesfully');
+>>>>>>> f8a910c830b9cd1c1891b979c739f5fa5ba4c933
     }
 
     /**
@@ -89,6 +97,10 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $project->delete();
+<<<<<<< HEAD
         return to_route('projects.index')->with('success', ' project deleted succesfully');
+=======
+        return to_route('projects.index')->with('success','Project deleted succesfully');
+>>>>>>> f8a910c830b9cd1c1891b979c739f5fa5ba4c933
     }
 }
