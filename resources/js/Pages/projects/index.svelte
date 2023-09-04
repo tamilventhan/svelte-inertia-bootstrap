@@ -163,8 +163,8 @@
             checkvalidation.end_date = "End Date is required";
         } else if (form.end_date) {
             checkvalidation.end_date = "";
+        }  
         }
-    }
 </script>
 
 <svelte:head>
