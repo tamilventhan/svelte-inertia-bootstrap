@@ -22,7 +22,7 @@
         checkvalidation = {};
         router.post("/projects", form);
         console.log($page.props.flash);
-            setTimeout(() => {
+        setTimeout(() => {
             if ($page.props.flash.success === "Project saved succesfully") {
                 Swal.fire({
                     icon: "success",
@@ -31,15 +31,14 @@
                     timer: 2000,
                 });
                 form = useForm(defaultform);
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Something Went Wrong..",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
             }
-            else {
-            Swal.fire({
-                icon: "error",
-                title: "Something Went Wrong..",
-                showConfirmButton: false,
-                timer: 1500,
-            });
-        }
         }, 600);
     }
     function update(id) {
