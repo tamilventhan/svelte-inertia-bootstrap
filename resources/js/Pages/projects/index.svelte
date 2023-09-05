@@ -18,6 +18,98 @@
     console.log(form.name);
     export let errors;
 
+    let pagetitle = "Projects";
+    let filters = {
+        search: "",
+    };
+    let selectedButton = false;
+    let showButton = false;
+    let checkvalidation = {
+        name: "",
+        language: "",
+        assigned_person: "",
+        start_date: "",
+        end_date: "",
+    };
+    let focusedInput = {
+        name: false,
+        language: false,
+        assigned_person: false,
+        start_date: false,
+        end_date: false,
+    };
+    let isFormValid = false;
+
+    $: getSearchValue(filters);
+    function getSearchValue(payload) {
+        router.get("/projects", payload, {
+            preserveScroll: false,
+        });
+    }
+
+    function handleError() {
+        if (!form.name && focusedInput.name) {
+            checkvalidation.name = "Name is required";
+        } else if (form.name) {
+            if (!/^[a-zA-Z]+$/.test(form.name)) {
+                checkvalidation.name =
+                    "Name should contain only alphabetic characters";
+            } else {
+                checkvalidation.name = "";
+            }
+        }
+        if (!form.language && focusedInput.language) {
+            checkvalidation.language = "Language is required";
+        } else if (form.language) {
+            if (!/^[a-zA-Z]+$/.test(form.language)) {
+                checkvalidation.language =
+                    "Language should contain only alphabetic characters";
+            } else {
+                checkvalidation.language = "";
+            }
+        }
+        if (!form.assigned_person && focusedInput.assigned_person) {
+            checkvalidation.assigned_person = "Assigned Person is required";
+        } else if (form.assigned_person) {
+            if (!/^[a-zA-Z]+$/.test(form.assigned_person)) {
+                checkvalidation.assigned_person =
+                    "Assigned Person should contain only alphabetic characters";
+            } else {
+                checkvalidation.assigned_person = "";
+            }
+        }
+        if (!form.start_date && focusedInput.start_date) {
+            checkvalidation.start_date = "Start Date is required";
+        } else if (form.start_date) {
+            if (form.start_date > form.end_date) {
+                checkvalidation.start_date =
+                    "Start Date cannot be greater than End Date";
+            } else {
+                checkvalidation.start_date = "";
+            }
+        }
+        if (!form.end_date && focusedInput.end_date) {
+            checkvalidation.end_date = "End Date is required";
+        } else if (form.end_date) {
+            if (form.end_date < form.start_date) {
+                checkvalidation.end_date =
+                    "End Date cannot be less than Start Date";
+            } else {
+                checkvalidation.end_date = "";
+            }
+        }
+        updateFormValidity();
+    }
+    function updateFormValidity() {
+        isFormValid =
+            checkvalidation.name === "" &&
+            checkvalidation.language === "" &&
+            checkvalidation.assigned_person === "" &&
+            checkvalidation.start_date === "" &&
+            checkvalidation.end_date === "";
+        console.log("isFormValid", isFormValid);
+        return isFormValid;
+    }
     function submit() {
         checkvalidation = {};
         focusedInput = {};
@@ -72,6 +164,9 @@
     function handleEditButton(data) {
         selectedButton = true;
         showButton = false;
+        checkvalidation = {};
+        focusedInput = {};
+        isFormValid=false;
         project = data;
         console.log(project.id);
         form.name = data.name;
@@ -80,20 +175,6 @@
         form.start_date = data.start_date;
         form.end_date = data.end_date;
     }
-    let pagetitle = "Projects";
-    let filters = {
-        search: "",
-    };
-    $: getSearchValue(filters);
-    function getSearchValue(payload) {
-        router.get("/projects", payload, {
-            preserveScroll: false,
-        });
-    }
-
-    let selectedButton = false;
-    let showButton = false;
-
     async function deleteProject(id) {
         const result = await Swal.fire({
             title: "Are you sure?",
@@ -112,74 +193,6 @@
                 text: "The customer has been deleted.",
                 icon: "success",
             });
-        }
-    }
-    let checkvalidation = {
-        name: "",
-        language: "",
-        assigned_person: "",
-        start_date: "",
-        end_date: "",
-    };
-    let focusedInput = {
-        name: false,
-        language: false,
-        assigned_person: false,
-        start_date: false,
-        end_date: false,
-    };
-
-    function handleError() {
-        if (!form.name && focusedInput.name) {
-            checkvalidation.name = "Name is required";
-        } else if (form.name) {
-            if (!/^[a-zA-Z]+$/.test(form.name)) {
-                checkvalidation.name =
-                    "Name should contain only alphabetic characters";
-            } else {
-                checkvalidation.name = "";
-            }
-        }
-        console.log(!form.language && focusedInput.language);
-        if (!form.language && focusedInput.language) {
-            checkvalidation.language = "Language is required";
-        } else if (form.language) {
-            if (!/^[a-zA-Z]+$/.test(form.language)) {
-                checkvalidation.language =
-                    "Language should contain only alphabetic characters";
-            } else {
-                checkvalidation.language = "";
-            }
-        }
-        if (!form.assigned_person && focusedInput.assigned_person) {
-            checkvalidation.assigned_person = "Assigned Person is required";
-        } else if (form.assigned_person) {
-            if (!/^[a-zA-Z]+$/.test(form.assigned_person)) {
-                checkvalidation.assigned_person =
-                    "Assigned Person should contain only alphabetic characters";
-            } else {
-                checkvalidation.assigned_person = "";
-            }
-        }
-        if (!form.start_date && focusedInput.start_date) {
-            checkvalidation.start_date = "Start Date is required";
-        } else if (form.start_date) {
-            if (form.start_date > form.end_date) {
-                checkvalidation.start_date =
-                    "Start Date cannot be greater than End Date";
-            } else {
-                checkvalidation.start_date = "";
-            }
-        }
-        if (!form.end_date && focusedInput.end_date) {
-            checkvalidation.end_date = "End Date is required";
-        } else if (form.end_date) {
-            if (form.end_date < form.start_date) {
-                checkvalidation.end_date =
-                    "End Date cannot be less than Start Date";
-            } else {
-                checkvalidation.end_date = "";
-            }
         }
     }
 </script>
@@ -361,7 +374,8 @@
                                 bind:value={form.start_date}
                                 class="form-control"
                                 id="start-date"
-                                on:focus={() => (focusedInput.start_date_date = true)}
+                                on:focus={() =>
+                                    (focusedInput.start_date_date = true)}
                                 on:input={() => handleError()}
                             />
                             {#if errors?.start_date || checkvalidation?.start_date}
@@ -428,12 +442,16 @@
                     {#if !selectedButton && !showButton}
                         <button
                             type="submit"
+                            disabled={!isFormValid}
+                            data-bs-dismiss={isFormValid?'modal':''}
                             on:click|preventDefault={submit}
                             class="btn btn-primary float-end">Submit</button
                         >
                     {:else if selectedButton && !showButton}
                         <button
                             type="submit"
+                            disabled={!isFormValid}
+                            data-bs-dismiss={isFormValid?'modal':''}
                             on:click|preventDefault={update(project.id)}
                             class="btn btn-primary float-end">Update</button
                         >
