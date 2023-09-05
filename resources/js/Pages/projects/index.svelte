@@ -242,7 +242,7 @@
                 <tbody>
                     {#each projects.data as project, i}
                         <tr>
-                            <td class="text-center">{i + 1}</td>
+                            <td class="text-center">{(projects.per_page * (projects.current_page - 1)) + i + 1}</td>
                             <td class="text-left">{project.name}</td>
                             <td class="text-left">{project.language}</td>
                             <td class="text-left">{project.assigned_person}</td>
