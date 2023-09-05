@@ -19,7 +19,8 @@
     export let errors;
 
     function submit() {
-        
+        checkvalidation = {};
+        focusedInput = {};
         router.post("/projects", form);
         console.log($page.props.flash);
         setTimeout(() => {
@@ -31,8 +32,6 @@
                     timer: 2000,
                 });
                 form = useForm(defaultform);
-                checkvalidation = {};
-        focusedInput = {};
             } else {
                 Swal.fire({
                     icon: "error",
@@ -41,8 +40,6 @@
                     timer: 1500,
                 });
                 console.log(focusedInput);
-                checkvalidation = {};
-        focusedInput = {};
             }
         }, 1500);
     }
