@@ -51,7 +51,7 @@
         if (!form.name && focusedInput.name) {
             checkvalidation.name = "Name is required";
         } else if (form.name) {
-            if (!/^[a-zA-Z]+$/.test(form.name)) {
+            if (/^[0-9]*$/.test(form.name)) {
                 checkvalidation.name =
                     "Name should contain only alphabetic characters";
             } else {
@@ -61,7 +61,7 @@
         if (!form.language && focusedInput.language) {
             checkvalidation.language = "Language is required";
         } else if (form.language) {
-            if (!/^[a-zA-Z]+$/.test(form.language)) {
+            if (/^[0-9]*$/.test(form.language)) {
                 checkvalidation.language =
                     "Language should contain only alphabetic characters";
             } else {
@@ -71,7 +71,7 @@
         if (!form.assigned_person && focusedInput.assigned_person) {
             checkvalidation.assigned_person = "Assigned Person is required";
         } else if (form.assigned_person) {
-            if (!/^[a-zA-Z]+$/.test(form.assigned_person)) {
+            if (/^[0-9]*$/.test(form.assigned_person)) {
                 checkvalidation.assigned_person =
                     "Assigned Person should contain only alphabetic characters";
             } else {
