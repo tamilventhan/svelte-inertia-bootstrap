@@ -19,7 +19,7 @@ class ProjectController extends Controller
 
         $projects = Project::query()->where('name', 'LIKE', '%' . $search . '%')
             ->orwhere('language', 'LIKE', '%' . $search . '%')
-            ->orwhere('assigned_person', 'LIKE', '%' . $search . '%')
+            ->orwhere('assigned_person', 'LIKE', '%' . $search . '%')->latest()
             ->paginate(10);
 
         return Inertia::render('projects/index', ['projects' => $projects]);
