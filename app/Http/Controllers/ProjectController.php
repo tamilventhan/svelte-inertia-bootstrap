@@ -7,6 +7,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+
 class ProjectController extends Controller
 {
     /**
@@ -16,12 +17,12 @@ class ProjectController extends Controller
     {
         $search = $request->input('search');
 
-        $projects =Project::query()->where('name','LIKE','%' . $search. '%')
-                                    ->orwhere('language','LIKE','%' . $search. '%')
-                                    ->orwhere('assigned_person','LIKE','%' . $search. '%')
-                                    ->paginate(10);
+        $projects = Project::query()->where('name', 'LIKE', '%' . $search . '%')
+            ->orwhere('language', 'LIKE', '%' . $search . '%')
+            ->orwhere('assigned_person', 'LIKE', '%' . $search . '%')->latest()
+            ->paginate(10);
 
-        return Inertia::render('projects/index',['projects' => $projects]);
+        return Inertia::render('projects/index', ['projects' => $projects]);
     }
 
     /**

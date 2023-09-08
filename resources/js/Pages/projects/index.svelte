@@ -1,6 +1,6 @@
 <script>
-    import Swal from "sweetalert2";
     import { page, inertia, router, useForm } from "@inertiajs/svelte";
+    import Swal from "sweetalert2";
     import Layout from "@/Shared/Layout.svelte";
     import Pagination from "@/Shared/Pagination.svelte";
 
@@ -14,13 +14,108 @@
         start_date: null,
         end_date: null,
     };
-    let formElement;
     let form = useForm(defaultform);
+    console.log(form.name);
     export let errors;
 
+    let pagetitle = "Projects";
+    let filters = {
+        search: "",
+    };
+    let selectedButton = false;
+    let showButton = false;
+    let checkvalidation = {
+        name: "",
+        language: "",
+        assigned_person: "",
+        start_date: "",
+        end_date: "",
+    };
+    let focusedInput = {
+        name: false,
+        language: false,
+        assigned_person: false,
+        start_date: false,
+        end_date: false,
+    };
+    let isFormValid = false;
+
+    $: getSearchValue(filters);
+    function getSearchValue(payload) {
+        router.get("/projects", payload, {
+            preserveScroll: false,
+        });
+    }
+
+    function handleError() {
+        if (!form.name && focusedInput.name) {
+            checkvalidation.name = "Name is required";
+        } else if (form.name) {
+            if (/^[0-9]*$/.test(form.name)) {
+                checkvalidation.name =
+                    "Name should contain only alphabetic characters";
+            } else {
+                checkvalidation.name = "";
+            }
+        }
+        if (!form.language && focusedInput.language) {
+            checkvalidation.language = "Language is required";
+        } else if (form.language) {
+            if (/^[0-9]*$/.test(form.language)) {
+                checkvalidation.language =
+                    "Language should contain only alphabetic characters";
+            } else {
+                checkvalidation.language = "";
+            }
+        }
+        if (!form.assigned_person && focusedInput.assigned_person) {
+            checkvalidation.assigned_person = "Assigned Person is required";
+        } else if (form.assigned_person) {
+            if (/^[0-9]*$/.test(form.assigned_person)) {
+                checkvalidation.assigned_person =
+                    "Assigned Person should contain only alphabetic characters";
+            } else {
+                checkvalidation.assigned_person = "";
+            }
+        }
+        if (!form.start_date && focusedInput.start_date) {
+            checkvalidation.start_date = "Start Date is required";
+        } else if (form.start_date) {
+            if (form.start_date > form.end_date) {
+                checkvalidation.start_date =
+                    "Start Date cannot be greater than End Date";
+            } else {
+                checkvalidation.start_date = "";
+            }
+        }
+        if (!form.end_date && focusedInput.end_date) {
+            checkvalidation.end_date = "End Date is required";
+        } else if (form.end_date) {
+            if (form.end_date < form.start_date) {
+                checkvalidation.end_date =
+                    "End Date cannot be less than Start Date";
+            } else {
+                checkvalidation.end_date = "";
+            }
+        }
+        updateFormValidity();
+    }
+    function updateFormValidity() {
+        isFormValid =
+            checkvalidation.name === "" &&
+            checkvalidation.language === "" &&
+            checkvalidation.assigned_person === "" &&
+            checkvalidation.start_date === "" &&
+            checkvalidation.end_date === "";
+        console.log("isFormValid", isFormValid);
+        return isFormValid;
+    }
     function submit() {
+        checkvalidation = {};
+        focusedInput = {};
         router.post("/projects", form);
-            setTimeout(() => {
+        console.log($page.props.flash);
+        setTimeout(() => {
             if ($page.props.flash.success === "Project saved succesfully") {
                 Swal.fire({
                     icon: "success",
@@ -29,10 +124,19 @@
                     timer: 2000,
                 });
                 form = useForm(defaultform);
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Something Went Wrong..",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                console.log(focusedInput);
             }
-        }, 600);
+        }, 1500);
     }
     function update(id) {
+        checkvalidation = {};
         router.put("/projects/" + id, form);
         console.log($page.props.flash.success);
         setTimeout(() => {
@@ -43,9 +147,15 @@
                     showConfirmButton: false,
                     timer: 2000,
                 });
-                form = useForm(defaultform);
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Something Went Wrong..",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
             }
-        }, 600);
+        }, 1500);
     }
     function show(data) {
         showButton = true;
@@ -53,7 +163,10 @@
     }
     function handleEditButton(data) {
         selectedButton = true;
-        showButton=false;
+        showButton = false;
+        checkvalidation = {};
+        focusedInput = {};
+        isFormValid=false;
         project = data;
         console.log(project.id);
         form.name = data.name;
@@ -62,20 +175,6 @@
         form.start_date = data.start_date;
         form.end_date = data.end_date;
     }
-    let pagetitle = "Projects";
-    let filters = {
-        search: "",
-    };
-    $: getSearchValue(filters);
-    function getSearchValue(payload) {
-        router.get("/projects", payload, {
-            preserveScroll: false,
-        });
-    }
-
-    let selectedButton = false;
-    let showButton = false;
-
     async function deleteProject(id) {
         const result = await Swal.fire({
             title: "Are you sure?",
@@ -96,7 +195,6 @@
             });
         }
     }
-
 </script>
 
 <svelte:head>
@@ -114,9 +212,11 @@
                 data-bs-target="#myModal"
                 on:click={() => {
                     selectedButton = false;
-                    showButton=false;
+                    showButton = false;
                     form = useForm(defaultform);
                     errors = {};
+                    checkvalidation = {};
+                    focusedInput = {};
                 }}>Add Project</a
             >
         </div>
@@ -142,7 +242,7 @@
                 <tbody>
                     {#each projects.data as project, i}
                         <tr>
-                            <td class="text-center">{i + 1}</td>
+                            <td class="text-center">{(projects.per_page * (projects.current_page - 1)) + i + 1}</td>
                             <td class="text-left">{project.name}</td>
                             <td class="text-left">{project.language}</td>
                             <td class="text-left">{project.assigned_person}</td>
@@ -191,9 +291,9 @@
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header" style="background-color:#FFF0F0">
-                {#if selectedButton&&!showButton}
+                {#if selectedButton && !showButton}
                     <h4 class="modal-title">Edit Project</h4>
-                {:else if !selectedButton&&!showButton}
+                {:else if !selectedButton && !showButton}
                     <h4 class="modal-title">Add Project</h4>
                 {:else if showButton}
                     <h4 class="modal-title">Project Details</h4>
@@ -202,13 +302,14 @@
                     type="button"
                     class="btn-close"
                     data-bs-dismiss="modal"
+                    on:click={() => (focusedInput = {})}
                 />
             </div>
 
             <!-- Modal body -->
             {#if !showButton}
                 <div class="p-3 ml-5 mr-5">
-                    <form class="grid gap-3" bind:this={formElement}>
+                    <form class="grid gap-3">
                         <div class="form-group mb-2">
                             <!-- svelte-ignore a11y-label-has-associated-control -->
                             <label>
@@ -219,9 +320,13 @@
                                 bind:value={form.name}
                                 class="form-control"
                                 id="project-name"
+                                on:focus={() => (focusedInput.name = true)}
+                                on:input={() => handleError()}
                             />
-                            {#if errors?.name}
-                                <div class="text-danger">{errors?.name}</div>
+                            {#if errors.name || checkvalidation?.name}
+                                <div class="text-danger">
+                                    {errors.name || checkvalidation.name}
+                                </div>
                             {/if}
                         </div>
                         <div class="form-group mb-2">
@@ -232,9 +337,14 @@
                                 bind:value={form.language}
                                 class="form-control"
                                 id="language"
+                                on:focus={() => (focusedInput.language = true)}
+                                on:input={() => handleError()}
                             />
-                            {#if errors.language}
-                                <div class="text-danger">{errors.language}</div>
+                            {#if errors?.language || checkvalidation?.language}
+                                <div class="text-danger">
+                                    {errors.language ||
+                                        checkvalidation?.language}
+                                </div>
                             {/if}
                         </div>
                         <div class="form-group mb-2">
@@ -245,10 +355,14 @@
                                 bind:value={form.assigned_person}
                                 class="form-control"
                                 id="assigned-person"
+                                on:focus={() =>
+                                    (focusedInput.assigned_person = true)}
+                                on:input={() => handleError()}
                             />
-                            {#if errors.assigned_person}
+                            {#if errors?.assigned_person || checkvalidation?.assigned_person}
                                 <div class="text-danger">
-                                    {errors.assigned_person}
+                                    {errors?.assigned_person ||
+                                        checkvalidation?.assigned_person}
                                 </div>
                             {/if}
                         </div>
@@ -260,10 +374,14 @@
                                 bind:value={form.start_date}
                                 class="form-control"
                                 id="start-date"
+                                on:focus={() =>
+                                    (focusedInput.start_date_date = true)}
+                                on:input={() => handleError()}
                             />
-                            {#if errors.start_date}
+                            {#if errors?.start_date || checkvalidation?.start_date}
                                 <div class="text-danger">
-                                    {errors.start_date}
+                                    {errors?.start_date ||
+                                        checkvalidation?.start_date}
                                 </div>
                             {/if}
                         </div>
@@ -275,9 +393,14 @@
                                 bind:value={form.end_date}
                                 class="form-control"
                                 id="end-date"
+                                on:focus={() => (focusedInput.end_date = true)}
+                                on:input={() => handleError()}
                             />
-                            {#if errors.end_date}
-                                <div class="text-danger">{errors.end_date}</div>
+                            {#if errors?.end_date || checkvalidation?.end_date}
+                                <div class="text-danger">
+                                    {errors?.end_date ||
+                                        checkvalidation?.end_date}
+                                </div>
                             {/if}
                         </div>
                     </form>
@@ -285,7 +408,7 @@
             {:else if showButton}
                 <div class="p-3">
                     <div>
-                        <p><b>Name of the project:</b> {project.name??"-"}</p>
+                        <p><b>Name of the project:</b> {project.name ?? "-"}</p>
                         <p>
                             <b>Programming language:</b>
                             {project.language ?? "-"}
@@ -313,18 +436,22 @@
                         use:inertia
                         href="/projects"
                         class="btn btn-secondary float-start"
-                        data-bs-dismiss="modal">Back</a
+                        data-bs-dismiss="modal"
+                        on:click={() => (focusedInput = {})}>Back</a
                     >
-                    {#if !selectedButton&&!showButton}
+                    {#if !selectedButton && !showButton}
                         <button
                             type="submit"
+                            disabled={!isFormValid}
+                            data-bs-dismiss={isFormValid?'modal':''}
                             on:click|preventDefault={submit}
                             class="btn btn-primary float-end">Submit</button
                         >
-                    {:else if selectedButton&&!showButton}
+                    {:else if selectedButton && !showButton}
                         <button
                             type="submit"
-                            data-bs-dismiss="modal"
+                            disabled={!isFormValid}
+                            data-bs-dismiss={isFormValid?'modal':''}
                             on:click|preventDefault={update(project.id)}
                             class="btn btn-primary float-end">Update</button
                         >
